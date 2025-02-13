@@ -69,7 +69,7 @@ public class PacienteController {
 	// Eliminar Paciente
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id){
-		Optional<Paciente> pacienteOptional =  service.obtenerPorId(id);
+		Optional<Paciente> pacienteOptional =  service.eliminar(id);
 		
 		if(pacienteOptional.isPresent()){
 			return ResponseEntity.ok(pacienteOptional.orElseThrow());
