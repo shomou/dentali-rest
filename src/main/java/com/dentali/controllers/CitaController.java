@@ -36,7 +36,7 @@ public class CitaController {
 		return ResponseEntity.ok(citaService.guardar(cita));
 	}
 	
-	@PutMapping("/{id}")
+	@PutMapping("/update/{id}")
 	public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Cita cita){
 		
 		Optional<Cita> citaOptional = citaService.actualizar(id, cita);
@@ -49,7 +49,7 @@ public class CitaController {
 	}
 	
 	
-	@PutMapping("/{id}")
+	@PutMapping("/cancel/{id}")
 	public ResponseEntity<?> cancel(@PathVariable Long id,@RequestBody Cita cita){
 		
 		Optional<Cita> citaOptional = citaService.cancelar(id, cita);
