@@ -37,6 +37,19 @@ public class CitaController {
 	}
 	
 	@PutMapping("/{id}")
+	public ResponseEntity<?> actualizar(@PathVariable Long id, @RequestBody Cita cita){
+		
+		Optional<Cita> citaOptional = citaService.actualizar(id, cita);
+		
+		if(citaOptional.isPresent()) {
+			return ResponseEntity.ok(citaOptional.orElseThrow());
+		}
+		
+		return ResponseEntity.notFound().build();
+	}
+	
+	
+	@PutMapping("/{id}")
 	public ResponseEntity<?> cancel(@PathVariable Long id,@RequestBody Cita cita){
 		
 		Optional<Cita> citaOptional = citaService.cancelar(id, cita);

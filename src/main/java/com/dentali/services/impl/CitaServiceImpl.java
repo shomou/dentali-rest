@@ -32,6 +32,24 @@ public class CitaServiceImpl implements CitaService{
         return citaRepository.save(cita);
     }
 	
+	// Actualizar Cita
+	@Override
+	@Transactional
+	public Optional<Cita> actualizar(Long id, Cita cita) {
+		
+		Optional<Cita> citaOptional = citaRepository.findById(id);
+		
+		if(citaOptional.isPresent()) {
+			Cita citaDB = citaOptional.orElseThrow();
+			citaDB.setDoctor(cita.getDoctor());
+			citaDB.setMotivo(cita.getMotivo());
+			
+			return Optional.of(citaRepository.save(citaDB));
+		}
+		return citaOptional;
+		
+	}
+	
 	// Cancelar Cita
 	@Override
 	@Transactional
@@ -52,10 +70,6 @@ public class CitaServiceImpl implements CitaService{
 		
 		return citaOptional;
 	}
-	
-	
-	
-	
 
-	
+		
 }

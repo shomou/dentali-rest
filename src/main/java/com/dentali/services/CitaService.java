@@ -11,6 +11,8 @@ public interface CitaService {
 	
 	public Cita guardar (Cita cita);
 	
+	public Optional<Cita> actualizar(Long id, Cita cita);
+	
 	public Optional<Cita> cancelar(Long id, Cita cita);
 	
 }
