@@ -37,7 +37,7 @@ public class CitaController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<?> actualizar(@PathVariable Long id, @RequestBody Cita cita){
+	public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Cita cita){
 		
 		Optional<Cita> citaOptional = citaService.actualizar(id, cita);
 		
