@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ import com.dentali.services.DoctorService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/odontologo")
+@RequestMapping("/api/odontologos")
 @RequiredArgsConstructor
 public class OdontologoController {		
 	
@@ -28,11 +29,12 @@ public class OdontologoController {
 	DoctorService doctorService;
 	
 	// Listar Doctores
-	@GetMapping
+	@GetMapping("/list")
 	public List<Doctor> listarDoctores(){
 		return doctorService.obtenerTodos();
 	}
 	
+	@PostMapping
 	public ResponseEntity<?> create (@RequestBody Doctor doctor){
 		// Validaciones
 		return ResponseEntity.status(HttpStatus.CREATED).body(doctorService.guardar(doctor));

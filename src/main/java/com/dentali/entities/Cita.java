@@ -33,6 +33,7 @@ public class Cita {
 	@JoinColumn(name = "doctor_id", nullable = false)
 	private Doctor doctor;
 	
+
 	private LocalDateTime fecha;
 	private String motivo;
 	
