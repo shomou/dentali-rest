@@ -22,10 +22,9 @@ El presente proyecto ha sido creado sin fines de lucro.
 ## Instalación ⚙️
 Guía paso a paso para instalar y configurar el proyecto:
 ```bash
-<<<<<<< HEAD
+
 git clone https://github.com/shomou/dentali-rest.git
 =======
 git clone https://github.com/shomou/dentali-rest.git
 
 
->>>>>>> 67d7a58f1e9bb137dbccc0e3065e46765f850070
