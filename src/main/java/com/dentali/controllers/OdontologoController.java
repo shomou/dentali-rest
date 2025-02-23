@@ -26,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class OdontologoController {		
 	
 	@Autowired
-	DoctorService doctorService;
+	private DoctorService doctorService;
 	
 	// Listar Doctores
 	@GetMapping("/list")

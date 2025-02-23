@@ -27,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 public class PacienteController {
 
 	@Autowired
-	PacienteService service;
+	private PacienteService service;
 	
 	// Listar Pacientes
 	@GetMapping("/list")

@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class CitaController {
 	
 	@Autowired
-	CitaService citaService;
+	private CitaService citaService;
 	
 	@GetMapping("/list")
 	public List<Cita> list (){
@@ -32,7 +32,7 @@ public class CitaController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody Cita cita){
+	public ResponseEntity<?> create(@RequestBody Cita cita){
 		return ResponseEntity.ok(citaService.guardar(cita));
 	}
 	
