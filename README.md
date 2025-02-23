@@ -8,3 +8,20 @@ clínicas de los pacientes.
 
 El presente proyecto ha sido creado sin fines de lucro.
 
+## Tabla de Contenidos 📑
+
+- [Instalación](#instalación-)
+- [Uso](#uso-)
+- [Características](#características-)
+- [Tecnologías](#tecnologías-)
+- [Contribución](#contribución-)
+- [Licencia](#licencia-)
+- [Contacto](#contacto-)
+
+
+## Instalación ⚙️
+Guía paso a paso para instalar y configurar el proyecto:
+```bash
+git clone https://github.com/shomou/dentali-rest.git
+
+
