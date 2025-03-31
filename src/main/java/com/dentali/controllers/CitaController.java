@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dentali.entities.Cita;
+import com.dentali.dto.CitaDTO;
 import com.dentali.services.CitaService;
 
 import lombok.RequiredArgsConstructor;
@@ -27,19 +27,26 @@ public class CitaController {
 	private CitaService citaService;
 	
 	@GetMapping("/list")
-	public List<Cita> list (){
+	public List<CitaDTO> list (){
+		
 		return citaService.listar();
 	}
 	
+	@GetMapping("/{id}")
+	public Optional<CitaDTO> view(@PathVariable Long id){
+		
+		return citaService.obtenerCita(id);
+	}
+	
 	@PostMapping
-	public ResponseEntity<?> create(@RequestBody Cita cita){
-		return ResponseEntity.ok(citaService.guardar(cita));
+	public ResponseEntity<?> create(@RequestBody CitaDTO citaDTO){
+		return ResponseEntity.ok(citaService.guardar(citaDTO));
 	}
 	
 	@PutMapping("/update/{id}")
-	public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Cita cita){
+	public ResponseEntity<?> update(@PathVariable Long id, @RequestBody CitaDTO citaDTO){
 		
-		Optional<Cita> citaOptional = citaService.actualizar(id, cita);
+		Optional<CitaDTO> citaOptional = citaService.actualizar(id, citaDTO);
 		
 		if(citaOptional.isPresent()) {
 			return ResponseEntity.ok(citaOptional.orElseThrow());
@@ -50,9 +57,9 @@ public class CitaController {
 	
 	
 	@PutMapping("/cancel/{id}")
-	public ResponseEntity<?> cancel(@PathVariable Long id,@RequestBody Cita cita){
+	public ResponseEntity<?> cancel(@PathVariable Long id,@RequestBody CitaDTO citaDTO){
 		
-		Optional<Cita> citaOptional = citaService.cancelar(id, cita);
+		Optional<CitaDTO> citaOptional = citaService.cancelar(id, citaDTO);
 		
 		if(citaOptional.isPresent()) {
 			return ResponseEntity.ok(citaOptional.orElseThrow());

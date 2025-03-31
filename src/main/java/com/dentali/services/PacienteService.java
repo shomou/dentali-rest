@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.dentali.entities.Paciente;
 
+
 public interface PacienteService {
 	public List<Paciente> obtenerTodos();
 
@@ -17,4 +18,6 @@ public interface PacienteService {
 	public Optional<Paciente> eliminar(Long id);
 	
 	Optional<Paciente> update(Long id, Paciente paciente);
+	
+	
 }
