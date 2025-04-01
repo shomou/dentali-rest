@@ -12,25 +12,37 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="doctores")
-@NoArgsConstructor @AllArgsConstructor
+@Table(name = "doctores")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Doctor {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String nombre;
 	private String apellido;
 	private String especialidad;
 	private String telefono;
 	private String email;
-	
+
 	@Column(name = "fecha_registro")
-	private LocalDateTime fechaRegistro =  LocalDateTime.now();
+	private LocalDateTime fechaRegistro = LocalDateTime.now();
+
+	// Constructores
+	public Doctor(Long id, String nombre, String apellido, String especialidad, String telefono, String email) {
+	
+		this.nombre =  nombre;
+		this.apellido = apellido;
+		this.especialidad = especialidad;
+		this.telefono = telefono;
+		this.email = email;
+
+	}
 
 	// Getters y Setters
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -86,8 +98,5 @@ public class Doctor {
 	public void setFechaRegistro(LocalDateTime fechaRegistro) {
 		this.fechaRegistro = fechaRegistro;
 	}
-	
-
-	
 
 }

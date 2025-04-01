@@ -17,6 +17,15 @@ public class DoctorDTO {
 
 	}
 
+	public DoctorDTO(Long id, String nombre, String apellido, String especialidad, String telefono, String email) {
+		this.id = id;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.especialidad = especialidad;
+		this.telefono = telefono;
+		this.email = email;
+	}
+
 	// Getters & Setter
 	public Long getId() {
 		return id;

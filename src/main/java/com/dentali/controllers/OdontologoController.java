@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dentali.entities.Doctor;
+import com.dentali.dto.DoctorDTO;
 import com.dentali.services.DoctorService;
 
 import lombok.RequiredArgsConstructor;
@@ -30,19 +30,19 @@ public class OdontologoController {
 	
 	// Listar Doctores
 	@GetMapping("/list")
-	public List<Doctor> listarDoctores(){
+	public List<DoctorDTO> listarDoctores(){
 		return doctorService.obtenerTodos();
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> create (@RequestBody Doctor doctor){
+	public ResponseEntity<?> create (@RequestBody DoctorDTO doctorDTO){
 		// Validaciones
-		return ResponseEntity.status(HttpStatus.CREATED).body(doctorService.guardar(doctor));
+		return ResponseEntity.status(HttpStatus.CREATED).body(doctorService.guardar(doctorDTO));
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> view(@PathVariable Long id){
-		Optional<Doctor>  doctorOptional = doctorService.obtenerPorId(id);
+		Optional<DoctorDTO>  doctorOptional = doctorService.obtenerPorId(id);
 		
 		if(doctorOptional.isPresent()){
 			return ResponseEntity.ok(doctorOptional.orElseThrow());
@@ -51,8 +51,8 @@ public class OdontologoController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@RequestBody Doctor doctor, @PathVariable Long id){
-		Optional<Doctor> doctorOptional = doctorService.update(id, doctor);
+	public ResponseEntity<?> update(@RequestBody DoctorDTO doctorDTO, @PathVariable Long id){
+		Optional<DoctorDTO> doctorOptional = doctorService.update(id, doctorDTO);
 		
 		if(doctorOptional.isPresent()){
 			return ResponseEntity.ok(doctorOptional.orElseThrow());
@@ -62,7 +62,7 @@ public class OdontologoController {
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id){
-		Optional<Doctor> doctorOptional = doctorService.eliminar(id);
+		Optional<DoctorDTO> doctorOptional = doctorService.eliminar(id);
 		
 		if(doctorOptional.isPresent()) {
 			return ResponseEntity.ok(doctorOptional.orElseThrow());
