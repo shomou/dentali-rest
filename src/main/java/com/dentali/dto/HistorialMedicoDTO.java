@@ -14,8 +14,16 @@ public class HistorialMedicoDTO {
 	private LocalDateTime fechaActualizacion;
 	
 	// Constructor
-	public HistorialMedicoDTO() {
-		
+	public HistorialMedicoDTO(Long id, Long paciente_id, Long doctor_id, String antecedentes, String alergias,
+			String medicamentosActuales, String enfermedadesCronicas, LocalDateTime fechaActualizacion) {
+		this.id = id;
+		this.paciente_id = paciente_id;	
+		this.doctor_id = doctor_id;
+		this.antecedentes = antecedentes;
+		this.alergias = alergias;
+		this.medicamentosActuales = medicamentosActuales;
+		this.enfermedadesCronicas = enfermedadesCronicas;
+		this.fechaActualizacion = fechaActualizacion;	
 	}
 
 	// Getters & Setters
