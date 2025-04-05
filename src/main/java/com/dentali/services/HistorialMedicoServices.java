@@ -2,10 +2,11 @@ package com.dentali.services;
 
 import java.util.List;
 
-import com.dentali.entities.HistorialMedico;
+import com.dentali.dto.HistorialMedicoDTO;
+
 
 public interface HistorialMedicoServices {
 	
-	public List<HistorialMedico> listar();
+	public List<HistorialMedicoDTO> listar();
 
 }

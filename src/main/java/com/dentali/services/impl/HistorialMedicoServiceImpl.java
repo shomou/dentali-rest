@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dentali.entities.HistorialMedico;
+import com.dentali.dto.HistorialMedicoDTO;
 import com.dentali.repositories.HistorialMedicoRepository;
 import com.dentali.services.HistorialMedicoServices;
 
@@ -18,8 +18,18 @@ public class HistorialMedicoServiceImpl implements HistorialMedicoServices{
 	
 	@Override
 	@Transactional
-	public List<HistorialMedico> listar() {
-		return historialRepository.findAll();
+	public List<HistorialMedicoDTO> listar() {
+		return historialRepository.findAll().stream()
+				.map(historial -> new HistorialMedicoDTO(
+						historial.getId(), 
+						historial.getPaciente().getId(), 
+						historial.getDoctor().getId(), 
+						historial.getAntecedentes(), 
+						historial.getAlergias(), 
+						historial.getMedicamentosActuales(), 
+						historial.getEnfermedadesCronicas(), 
+						historial.getFechaActualizacion()))
+				.toList();
 	}
 	
 	

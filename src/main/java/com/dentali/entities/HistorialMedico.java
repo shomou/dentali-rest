@@ -15,29 +15,42 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "historial_medico")
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class HistorialMedico {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "paciente_id", nullable = false)
-    private Paciente paciente;
+	@ManyToOne
+	@JoinColumn(name = "paciente_id", nullable = false)
+	private Paciente paciente;
 
-    @ManyToOne
-    @JoinColumn(name = "doctor_id", nullable = true)
-    private Doctor doctor;
+	@ManyToOne
+	@JoinColumn(name = "doctor_id", nullable = true)
+	private Doctor doctor;
 
-    private String antecedentes;
-    private String alergias;
-    private String medicamentosActuales;
-    private String enfermedadesCronicas;
+	private String antecedentes;
+	private String alergias;
+	private String medicamentosActuales;
+	private String enfermedadesCronicas;
 
-    @Column(name = "fecha_actualizacion")
-    private LocalDateTime fechaActualizacion = LocalDateTime.now();
-    
-    // Getter y Setters
+	@Column(name = "fecha_actualizacion")
+	private LocalDateTime fechaActualizacion = LocalDateTime.now();
+
+	// Constructor
+	public HistorialMedico(Long id, Paciente paciente, Doctor doctor, String antecedentes, String alergias,
+			String medicamentosActuales, String enfermedadesCronicas) {
+		this.id = id;
+		this.paciente = paciente;
+		this.doctor = doctor;
+		this.antecedentes = antecedentes;
+		this.alergias = alergias;
+		this.medicamentosActuales = medicamentosActuales;
+		this.enfermedadesCronicas = enfermedadesCronicas;
+	}
+
+	// Getter y Setters
 
 	public Long getId() {
 		return id;
@@ -102,6 +115,5 @@ public class HistorialMedico {
 	public void setFechaActualizacion(LocalDateTime fechaActualizacion) {
 		this.fechaActualizacion = fechaActualizacion;
 	}
-    
-    
+
 }
