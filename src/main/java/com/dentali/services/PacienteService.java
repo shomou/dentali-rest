@@ -3,21 +3,21 @@ package com.dentali.services;
 import java.util.List;
 import java.util.Optional;
 
-import com.dentali.entities.Paciente;
+import com.dentali.dto.PacienteDTO;
 
 
 public interface PacienteService {
-	public List<Paciente> obtenerTodos();
+	public List<PacienteDTO> obtenerTodos();
 
-	public Optional<Paciente> obtenerPorId(Long id);
+	public Optional<PacienteDTO> obtenerPorId(Long id);
 
-	public List<Paciente> buscarPorNombre(String nombre);
+	public List<PacienteDTO> buscarPorNombre(String nombre);
 
-	public Paciente guardar(Paciente paciente);
+	public PacienteDTO guardar(PacienteDTO pacienteDTO);
 
-	public Optional<Paciente> eliminar(Long id);
+	public Optional<PacienteDTO> eliminar(Long id);
 	
-	Optional<Paciente> update(Long id, Paciente paciente);
+	Optional<PacienteDTO> update(Long id, PacienteDTO pacienteDTO);
 	
 	
 }
