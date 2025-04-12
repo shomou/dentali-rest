@@ -18,6 +18,19 @@ public class PacienteDTO {
 	public PacienteDTO() {
 
 	}
+	public PacienteDTO(Long id, String nombre, String apellido, LocalDate fechaNacimiento,
+			String telefono, String email, String direccion, LocalDateTime fechaRegistro) {
+		this.id = id;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.fechaNacimiento = fechaNacimiento;
+		this.telefono = telefono;
+		this.email = email;
+		this.direccion = direccion;
+		this.fechaRegistro = fechaRegistro;
+		
+
+	}
 
 	// Getters & Setters
 	public Long getId() {

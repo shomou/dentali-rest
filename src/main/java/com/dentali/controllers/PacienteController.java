@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dentali.entities.Paciente;
+import com.dentali.dto.PacienteDTO;
 import com.dentali.services.PacienteService;
 
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/pacientes")
+@RequestMapping("/api/PacienteDTOs")
 @RequiredArgsConstructor
 public class PacienteController {
 
@@ -31,24 +31,24 @@ public class PacienteController {
 	
 	// Listar Pacientes
 	@GetMapping("/list")
-	public List<Paciente> listarPacientes(){
+	public List<PacienteDTO> listarPacienteDTOs(){
 		return service.obtenerTodos();
 	}
 	
 	// Crear Paciente
 	@PostMapping
-	public ResponseEntity<?> create (@RequestBody Paciente paciente){
+	public ResponseEntity<?> create (@RequestBody PacienteDTO PacienteDTO){
 		// Validaciones 
-		return ResponseEntity.status(HttpStatus.CREATED).body(service.guardar(paciente));
+		return ResponseEntity.status(HttpStatus.CREATED).body(service.guardar(PacienteDTO));
 	}
 	
 	// Buscar Paciente por ID
 	@GetMapping("/{id}")
 	public ResponseEntity<?> view(@PathVariable Long id){
-		Optional<Paciente> pacienteOptional = service.obtenerPorId(id);
+		Optional<PacienteDTO> PacienteDTOOptional = service.obtenerPorId(id);
 		
-		if (pacienteOptional.isPresent()) {
-			return ResponseEntity.ok(pacienteOptional.orElseThrow());
+		if (PacienteDTOOptional.isPresent()) {
+			return ResponseEntity.ok(PacienteDTOOptional.orElseThrow());
 		}
 		
 		return ResponseEntity.notFound().build();
@@ -56,12 +56,12 @@ public class PacienteController {
 	
 	// Actualizar Paciente
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@RequestBody Paciente paciente, @PathVariable Long id){
+	public ResponseEntity<?> update(@RequestBody PacienteDTO PacienteDTO, @PathVariable Long id){
 		
-		Optional<Paciente> pacienteOptional = service.update(id, paciente);
+		Optional<PacienteDTO> PacienteDTOOptional = service.update(id, PacienteDTO);
 		
-		if (pacienteOptional.isPresent()){
-			return ResponseEntity.status(HttpStatus.CREATED).body(pacienteOptional.orElseThrow());
+		if (PacienteDTOOptional.isPresent()){
+			return ResponseEntity.status(HttpStatus.CREATED).body(PacienteDTOOptional.orElseThrow());
 		}
 		return ResponseEntity.notFound().build();
 	}
@@ -69,10 +69,10 @@ public class PacienteController {
 	// Eliminar Paciente
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id){
-		Optional<Paciente> pacienteOptional =  service.eliminar(id);
+		Optional<PacienteDTO> PacienteDTOOptional =  service.eliminar(id);
 		
-		if(pacienteOptional.isPresent()){
-			return ResponseEntity.ok(pacienteOptional.orElseThrow());
+		if(PacienteDTOOptional.isPresent()){
+			return ResponseEntity.ok(PacienteDTOOptional.orElseThrow());
 		}
 		
 		return ResponseEntity.notFound().build();
