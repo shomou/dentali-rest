@@ -30,6 +30,17 @@ public class Paciente {
 	
 	@Column(name = "fecha_registro")
 	private LocalDateTime fechaRegistro = LocalDateTime.now();
+
+	// Constructor
+	public Paciente(String nombre, String apellido, LocalDate fechaNacimiento, String telefono, String email,
+			String direccion) {
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.fechaNacimiento = fechaNacimiento;
+		this.telefono = telefono;
+		this.email = email;
+		this.direccion = direccion;
+	}
 	
 	// Getters y Setters
 
