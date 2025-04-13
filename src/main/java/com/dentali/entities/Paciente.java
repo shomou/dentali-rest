@@ -32,6 +32,8 @@ public class Paciente {
 	private LocalDateTime fechaRegistro = LocalDateTime.now();
 
 	// Constructor
+	public Paciente() {}
+	
 	public Paciente(String nombre, String apellido, LocalDate fechaNacimiento, String telefono, String email,
 			String direccion) {
 		this.nombre = nombre;
