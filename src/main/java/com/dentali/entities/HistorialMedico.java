@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "historial_medico")
-@NoArgsConstructor
 @AllArgsConstructor
 public class HistorialMedico {
 	@Id
