@@ -1,48 +1,32 @@
-package com.dentali.entities;
+package com.dentali.dto;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+public class DoctorDTO {
 
-@Entity
-@Table(name = "doctores")
-@NoArgsConstructor
-@AllArgsConstructor
-public class Doctor {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
 	private String nombre;
 	private String apellido;
 	private String especialidad;
 	private String telefono;
 	private String email;
+	private LocalDateTime fechaRegistro;
 
-	@Column(name = "fecha_registro")
-	private LocalDateTime fechaRegistro = LocalDateTime.now();
+	// Constructor
+	public DoctorDTO() {
 
-	// Constructores
-	public Doctor(Long id, String nombre, String apellido, String especialidad, String telefono, String email) {
-	
-		this.nombre =  nombre;
+	}
+
+	public DoctorDTO(Long id, String nombre, String apellido, String especialidad, String telefono, String email) {
+		this.id = id;
+		this.nombre = nombre;
 		this.apellido = apellido;
 		this.especialidad = especialidad;
 		this.telefono = telefono;
 		this.email = email;
-
 	}
 
-	// Getters y Setters
-
+	// Getters & Setter
 	public Long getId() {
 		return id;
 	}

@@ -1,51 +1,38 @@
-package com.dentali.entities;
+package com.dentali.dto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+public class PacienteDTO {
 
-@Entity
-@Table(name="pacientes")
-@NoArgsConstructor @AllArgsConstructor
-public class Paciente {
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	
 	private String nombre;
 	private String apellido;
 	private LocalDate fechaNacimiento;
 	private String telefono;
 	private String email;
 	private String direccion;
-	
-	@Column(name = "fecha_registro")
-	private LocalDateTime fechaRegistro = LocalDateTime.now();
+	private LocalDateTime fechaRegistro;
 
 	// Constructor
-	public Paciente() {}
-	
-	public Paciente(String nombre, String apellido, LocalDate fechaNacimiento, String telefono, String email,
-			String direccion) {
+	public PacienteDTO() {
+
+	}
+	public PacienteDTO(Long id, String nombre, String apellido, LocalDate fechaNacimiento,
+			String telefono, String email, String direccion, LocalDateTime fechaRegistro) {
+		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.fechaNacimiento = fechaNacimiento;
 		this.telefono = telefono;
 		this.email = email;
 		this.direccion = direccion;
-	}
-	
-	// Getters y Setters
+		this.fechaRegistro = fechaRegistro;
+		
 
+	}
+
+	// Getters & Setters
 	public Long getId() {
 		return id;
 	}
@@ -109,7 +96,5 @@ public class Paciente {
 	public void setFechaRegistro(LocalDateTime fechaRegistro) {
 		this.fechaRegistro = fechaRegistro;
 	}
-	
-	
-	
+
 }

@@ -19,31 +19,41 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "citas")
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class Cita {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "paciente_id", nullable = false)
 	private Paciente paciente;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "doctor_id", nullable = false)
 	private Doctor doctor;
-	
 
 	private LocalDateTime fecha;
 	private String motivo;
-	
+
 	@Enumerated(EnumType.STRING)
 	private EstadoCita estado;
-	
+
 	@Column(name = "fecha_creacion")
 	private LocalDateTime fechaCreacion = LocalDateTime.now();
-	
-	
+
+	// Constructor
+	public Cita(Long id, Doctor doctor, Paciente paciente, EstadoCita estado, String motivo, LocalDateTime fecha) {
+		
+		this.paciente= paciente; 
+		this.doctor = doctor;
+		this.estado = estado;
+		this.motivo = motivo;		
+		this.fecha = fecha;
+        this.fechaCreacion = LocalDateTime.now();
+	}
+
 	// Getters y Setters
 
 	public Long getId() {
@@ -101,7 +111,5 @@ public class Cita {
 	public void setFechaCreacion(LocalDateTime fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
-	
-	
-	
+
 }

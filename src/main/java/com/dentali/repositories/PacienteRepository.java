@@ -7,7 +7,10 @@ import org.springframework.stereotype.Repository;
 
 import com.dentali.entities.Paciente;
 
+
 @Repository
 public interface PacienteRepository extends JpaRepository<Paciente, Long> {
 	List<Paciente> findByNombreContainingIgnoreCase(String nombre);
+	
+
 }

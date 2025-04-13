@@ -1,57 +1,32 @@
-package com.dentali.entities;
+package com.dentali.dto;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+public class HistorialMedicoDTO {
 
-@Entity
-@Table(name = "historial_medico")
-@NoArgsConstructor
-@AllArgsConstructor
-public class HistorialMedico {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	@ManyToOne
-	@JoinColumn(name = "paciente_id", nullable = false)
-	private Paciente paciente;
-
-	@ManyToOne
-	@JoinColumn(name = "doctor_id", nullable = true)
-	private Doctor doctor;
-
+	private Long paciente_id;
+	private Long doctor_id;
 	private String antecedentes;
 	private String alergias;
 	private String medicamentosActuales;
 	private String enfermedadesCronicas;
-
-	@Column(name = "fecha_actualizacion")
-	private LocalDateTime fechaActualizacion = LocalDateTime.now();
-
+	private LocalDateTime fechaActualizacion;
+	
 	// Constructor
-	public HistorialMedico(Long id, Paciente paciente, Doctor doctor, String antecedentes, String alergias,
-			String medicamentosActuales, String enfermedadesCronicas) {
+	public HistorialMedicoDTO(Long id, Long paciente_id, Long doctor_id, String antecedentes, String alergias,
+			String medicamentosActuales, String enfermedadesCronicas, LocalDateTime fechaActualizacion) {
 		this.id = id;
-		this.paciente = paciente;
-		this.doctor = doctor;
+		this.paciente_id = paciente_id;	
+		this.doctor_id = doctor_id;
 		this.antecedentes = antecedentes;
 		this.alergias = alergias;
 		this.medicamentosActuales = medicamentosActuales;
 		this.enfermedadesCronicas = enfermedadesCronicas;
+		this.fechaActualizacion = fechaActualizacion;	
 	}
 
-	// Getter y Setters
-
+	// Getters & Setters
 	public Long getId() {
 		return id;
 	}
@@ -60,20 +35,20 @@ public class HistorialMedico {
 		this.id = id;
 	}
 
-	public Paciente getPaciente() {
-		return paciente;
+	public Long getPaciente_id() {
+		return paciente_id;
 	}
 
-	public void setPaciente(Paciente paciente) {
-		this.paciente = paciente;
+	public void setPaciente_id(Long paciente_id) {
+		this.paciente_id = paciente_id;
 	}
 
-	public Doctor getDoctor() {
-		return doctor;
+	public Long getDoctor_id() {
+		return doctor_id;
 	}
 
-	public void setDoctor(Doctor doctor) {
-		this.doctor = doctor;
+	public void setDoctor_id(Long doctor_id) {
+		this.doctor_id = doctor_id;
 	}
 
 	public String getAntecedentes() {
@@ -115,5 +90,7 @@ public class HistorialMedico {
 	public void setFechaActualizacion(LocalDateTime fechaActualizacion) {
 		this.fechaActualizacion = fechaActualizacion;
 	}
-
+	
+	
+	
 }

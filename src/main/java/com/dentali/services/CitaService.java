@@ -3,16 +3,18 @@ package com.dentali.services;
 import java.util.List;
 import java.util.Optional;
 
-import com.dentali.entities.Cita;
+import com.dentali.dto.CitaDTO;
 
 public interface CitaService {
 	
-	public List<Cita> listar();
+	public List<CitaDTO> listar();
 	
-	public Cita guardar (Cita cita);
+	public Optional<CitaDTO> obtenerCita(Long id);
 	
-	public Optional<Cita> actualizar(Long id, Cita cita);
+	public CitaDTO guardar (CitaDTO citaDTO);
 	
-	public Optional<Cita> cancelar(Long id, Cita cita);
+	public Optional<CitaDTO> actualizar(Long id, CitaDTO citaDTO);
+	
+	public Optional<CitaDTO> cancelar(Long id, CitaDTO citaDTO);
 	
 }
