@@ -39,6 +39,9 @@ public class HistorialMedico {
 	private LocalDateTime fechaActualizacion = LocalDateTime.now();
 
 	// Constructor
+	public HistorialMedico() {
+	}
+	
 	public HistorialMedico(Long id, Paciente paciente, Doctor doctor, String antecedentes, String alergias,
 			String medicamentosActuales, String enfermedadesCronicas) {
 		this.id = id;

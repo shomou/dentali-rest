@@ -44,6 +44,10 @@ public class Cita {
 	private LocalDateTime fechaCreacion = LocalDateTime.now();
 
 	// Constructor
+	public Cita() {
+		
+	}
+	
 	public Cita(Long id, Doctor doctor, Paciente paciente, EstadoCita estado, String motivo, LocalDateTime fecha) {
 		
 		this.paciente= paciente; 

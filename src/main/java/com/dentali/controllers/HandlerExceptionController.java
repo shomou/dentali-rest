@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import com.dentali.errors.entities.Error;
+import com.dentali.errors.exceptions.CitaNotFoundException;
 import com.dentali.errors.exceptions.UserNotFoundException;
 
 @RestControllerAdvice
@@ -63,5 +64,18 @@ public class HandlerExceptionController {
         error.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value()+" ");
         return error;
     }
+   
+    @ExceptionHandler({CitaNotFoundException.class})
+    public Map<String, String> citaNotFoundException(Exception ex){
+		Map<String, String> error = new HashMap<>();
+
+		error.put("date", new Date().toString());
+		error.put("error", "La Cita no existe.");
+		error.put("message", ex.getMessage());
+		error.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value()+" ");
+		return error;
+	
+    }
+    
 	
 }
