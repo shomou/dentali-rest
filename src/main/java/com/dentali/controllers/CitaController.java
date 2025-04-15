@@ -28,9 +28,15 @@ public class CitaController {
 	private CitaService citaService;
 	
 	@GetMapping("/list")
-	public List<CitaDTO> list (){
+	public ResponseEntity<?> list (){
+
+		List<CitaDTO> lista = citaService.listar();
+
+		if (lista.isEmpty()){
+			throw new CitaNotFoundException("Error no hay citas disponibles para mostrar.");
+		}
 		
-		return citaService.listar();
+		return ResponseEntity.ok(lista);
 	}
 	
 	@GetMapping("/{id}")

@@ -14,6 +14,10 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 import com.dentali.errors.entities.Error;
 import com.dentali.errors.exceptions.CitaNotFoundException;
+import com.dentali.errors.exceptions.DoctorNotFoundException;
+import com.dentali.errors.exceptions.HistorialNotFoundException;
+import com.dentali.errors.exceptions.PacienteNotFoundException;
+import com.dentali.errors.exceptions.TratamientoNotFoundException;
 import com.dentali.errors.exceptions.UserNotFoundException;
 
 @RestControllerAdvice
@@ -67,6 +71,54 @@ public class HandlerExceptionController {
    
     @ExceptionHandler({CitaNotFoundException.class})
     public Map<String, String> citaNotFoundException(Exception ex){
+		Map<String, String> error = new HashMap<>();
+
+		error.put("date", new Date().toString());
+		error.put("error", "La Cita no existe.");
+		error.put("message", ex.getMessage());
+		error.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value()+" ");
+		return error;
+	
+    }
+    
+    @ExceptionHandler({DoctorNotFoundException.class})
+    public Map<String, String> doctorNotFoundException(Exception ex){
+		Map<String, String> error = new HashMap<>();
+
+		error.put("date", new Date().toString());
+		error.put("error", "La Cita no existe.");
+		error.put("message", ex.getMessage());
+		error.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value()+" ");
+		return error;
+	
+    }
+
+    @ExceptionHandler({PacienteNotFoundException.class})
+    public Map<String, String> pacienteNotFoundException(Exception ex){
+		Map<String, String> error = new HashMap<>();
+
+		error.put("date", new Date().toString());
+		error.put("error", "La Cita no existe.");
+		error.put("message", ex.getMessage());
+		error.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value()+" ");
+		return error;
+	
+    }
+
+    @ExceptionHandler({TratamientoNotFoundException.class})
+    public Map<String, String> tratamientoNotFoundException(Exception ex){
+		Map<String, String> error = new HashMap<>();
+
+		error.put("date", new Date().toString());
+		error.put("error", "La Cita no existe.");
+		error.put("message", ex.getMessage());
+		error.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value()+" ");
+		return error;
+	
+    }
+
+    @ExceptionHandler({HistorialNotFoundException.class})
+    public Map<String, String> historialNotFoundException(Exception ex){
 		Map<String, String> error = new HashMap<>();
 
 		error.put("date", new Date().toString());
