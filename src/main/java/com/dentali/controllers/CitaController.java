@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dentali.dto.CitaDTO;
+import com.dentali.errors.exceptions.CitaNotFoundException;
 import com.dentali.services.CitaService;
 
 import lombok.RequiredArgsConstructor;
@@ -27,15 +28,33 @@ public class CitaController {
 	private CitaService citaService;
 	
 	@GetMapping("/list")
-	public List<CitaDTO> list (){
+	public ResponseEntity<?> list (){
+
+		List<CitaDTO> lista = citaService.listar();
+
+		if (lista.isEmpty()){
+			throw new CitaNotFoundException("Error no hay citas disponibles para mostrar.");
+		}
 		
-		return citaService.listar();
+		return ResponseEntity.ok(lista);
 	}
 	
 	@GetMapping("/{id}")
-	public Optional<CitaDTO> view(@PathVariable Long id){
+	public ResponseEntity<CitaDTO> view(@PathVariable Long id){
 		
-		return citaService.obtenerCita(id);
+		if(id <= 0) {
+			throw new CitaNotFoundException("Error el id no puede ser menor o igual a cero.");
+		}
+		
+		Optional<CitaDTO> citaOptional = citaService.obtenerCita(id);
+		
+		
+		if(citaOptional.isPresent()) {
+			return ResponseEntity.ok(citaOptional.orElseThrow(() ->   new CitaNotFoundException("Error la cita no existe.")));
+		}
+		
+		throw new CitaNotFoundException("Error: la cita no existe.");
+		
 	}
 	
 	@PostMapping
@@ -46,26 +65,33 @@ public class CitaController {
 	@PutMapping("/update/{id}")
 	public ResponseEntity<?> update(@PathVariable Long id, @RequestBody CitaDTO citaDTO){
 		
+		if(id <= 0) {
+			throw new CitaNotFoundException("Error el id no puede ser menor o igual a cero.");
+		}
+		
 		Optional<CitaDTO> citaOptional = citaService.actualizar(id, citaDTO);
 		
 		if(citaOptional.isPresent()) {
-			return ResponseEntity.ok(citaOptional.orElseThrow());
+			return ResponseEntity.ok(citaOptional.orElseThrow(() ->   new CitaNotFoundException("Error la cita no existe.")));
 		}
 		
-		return ResponseEntity.notFound().build();
+		throw new CitaNotFoundException("Error: la cita no existe.");
 	}
 	
 	
 	@PutMapping("/cancel/{id}")
 	public ResponseEntity<?> cancel(@PathVariable Long id,@RequestBody CitaDTO citaDTO){
+		if(id <= 0) {
+			throw new CitaNotFoundException("Error el id no puede ser menor o igual a cero.");
+		}
 		
 		Optional<CitaDTO> citaOptional = citaService.cancelar(id, citaDTO);
 		
 		if(citaOptional.isPresent()) {
-			return ResponseEntity.ok(citaOptional.orElseThrow());
+			return ResponseEntity.ok(citaOptional.orElseThrow(() ->   new CitaNotFoundException("Error la cita no existe.")));
 		}
 		
-		return ResponseEntity.notFound().build();
+		throw new CitaNotFoundException("Error: la cita no existe.");
 	}
 	
 }

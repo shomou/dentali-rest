@@ -38,7 +38,7 @@ public class OdontologoController {
 	public ResponseEntity<?> create (@RequestBody DoctorDTO doctorDTO){
 		// Validaciones
 		return ResponseEntity.status(HttpStatus.CREATED).body(doctorService.guardar(doctorDTO));
-	}
+	} 
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> view(@PathVariable Long id){

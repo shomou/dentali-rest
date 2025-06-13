@@ -15,11 +15,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+
 
 @Entity
 @Table(name = "citas")
-@NoArgsConstructor
 @AllArgsConstructor
 public class Cita {
 	@Id
@@ -44,6 +43,10 @@ public class Cita {
 	private LocalDateTime fechaCreacion = LocalDateTime.now();
 
 	// Constructor
+	public Cita() {
+		
+	}
+	
 	public Cita(Long id, Doctor doctor, Paciente paciente, EstadoCita estado, String motivo, LocalDateTime fecha) {
 		
 		this.paciente= paciente; 

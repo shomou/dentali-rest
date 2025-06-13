@@ -9,11 +9,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+
 
 @Entity
 @Table(name = "doctores")
-@NoArgsConstructor
 @AllArgsConstructor
 public class Doctor {
 
@@ -31,6 +30,9 @@ public class Doctor {
 	private LocalDateTime fechaRegistro = LocalDateTime.now();
 
 	// Constructores
+	public Doctor() {
+	}
+	
 	public Doctor(Long id, String nombre, String apellido, String especialidad, String telefono, String email) {
 	
 		this.nombre =  nombre;
