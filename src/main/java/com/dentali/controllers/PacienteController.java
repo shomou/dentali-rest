@@ -22,7 +22,7 @@ import com.dentali.services.PacienteService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/PacienteDTOs")
+@RequestMapping("/api/pacientes")
 @RequiredArgsConstructor
 public class PacienteController {
 
