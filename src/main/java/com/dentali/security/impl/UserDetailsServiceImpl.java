@@ -31,7 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName().replace("ROLE_", "")))
                 .collect(Collectors.toList()))
             .accountLocked(!user.isEnabled())
-            .build();
+            .build(); 
     }
 
    
