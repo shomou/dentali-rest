@@ -45,6 +45,7 @@ public class SpringSecurityConfig {
         return http.authorizeHttpRequests((authz) -> authz
         .requestMatchers(HttpMethod.GET,"/api/users").permitAll()
         .requestMatchers(HttpMethod.POST,"/api/users/register").permitAll()
+        .requestMatchers(HttpMethod.POST,"/api/users/create").permitAll()
         .requestMatchers(HttpMethod.POST,"/api/users").hasRole("ADMIN")
         .anyRequest().authenticated())
         .addFilter(new JwtAuthenticationFilter(authenticationManager()))
