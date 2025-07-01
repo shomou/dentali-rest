@@ -49,9 +49,10 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user) {  
         
-        user.setAdmin(false);        
+        user.setAdmin(true);        
         return create(user);
     }
+
 
    
     /*

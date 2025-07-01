@@ -12,7 +12,7 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data # Persistencia de datos para la DB
     ports:
-      - "5433:5433" # Mapea el puerto de la DB al host (opcional, útil para acceder desde local)
+      - "5433:5432" # Mapea el puerto de la DB al host (opcional, útil para acceder desde local)
 
   # Servicio para la aplicación Spring Boot
   api:

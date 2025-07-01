@@ -3,7 +3,9 @@ package com.dentali.services;
 import java.util.List;
 
 import com.dentali.entities.User;
+import org.springframework.stereotype.Service;
 
+@Service
 public interface UserService {
 
     List<User> findAll();
@@ -12,4 +14,5 @@ public interface UserService {
 
     boolean existsByUserName(String username);
 
+    String verify(User user);
 }
