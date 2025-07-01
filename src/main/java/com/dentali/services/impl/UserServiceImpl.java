@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.dentali.services.JWTService;
+//import com.dentali.services.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,8 +33,8 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private JWTService jwtService;
+    // @Autowired
+    // private JWTService jwtService;
 
     @Override
     public List<User> findAll() {
