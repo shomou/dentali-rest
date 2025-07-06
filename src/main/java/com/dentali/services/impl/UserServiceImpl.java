@@ -16,6 +16,7 @@ import com.dentali.entities.Role;
 import com.dentali.entities.User;
 import com.dentali.repositories.RoleRepository;
 import com.dentali.repositories.UserRepository;
+import com.dentali.services.JWTService;
 import com.dentali.services.UserService;
 
 @Service
@@ -33,8 +34,8 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    // @Autowired
-    // private JWTService jwtService;
+    @Autowired
+    private JWTService jwtService;
 
     @Override
     public List<User> findAll() {
@@ -71,7 +72,7 @@ public class UserServiceImpl implements UserService{
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword()));
 
         if (authentication.isAuthenticated()){
-            return "Success";
+            return jwtService.generateToken(user.getUsername());
         }
         return "Failed";
     }
