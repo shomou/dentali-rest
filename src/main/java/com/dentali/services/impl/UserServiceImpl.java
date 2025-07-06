@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+//import com.dentali.services.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +16,7 @@ import com.dentali.entities.Role;
 import com.dentali.entities.User;
 import com.dentali.repositories.RoleRepository;
 import com.dentali.repositories.UserRepository;
+import com.dentali.services.JWTService;
 import com.dentali.services.UserService;
 
 @Service
@@ -25,6 +30,12 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JWTService jwtService;
 
     @Override
     public List<User> findAll() {
@@ -54,5 +65,16 @@ public class UserServiceImpl implements UserService{
         
         return repository.existsByUsername(username);
     }
-    
+
+    @Override
+    public String verify(User user) {
+        Authentication authentication =
+                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword()));
+
+        if (authentication.isAuthenticated()){
+            return jwtService.generateToken(user.getUsername());
+        }
+        return "Failed";
+    }
+
 }

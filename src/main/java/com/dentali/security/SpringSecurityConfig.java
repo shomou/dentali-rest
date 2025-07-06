@@ -21,8 +21,10 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import com.dentali.security.filter.JWTFilter;
 import com.dentali.security.filter.JwtAuthenticationFilter;
 import com.dentali.security.filter.JwtValidationFilter;
+
 
 @Configuration
 public class SpringSecurityConfig {
@@ -35,6 +37,9 @@ public class SpringSecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();        
     }
 
+    @Autowired
+    private JWTFilter jwtFilter;
+
     @Bean
     PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
@@ -45,13 +50,18 @@ public class SpringSecurityConfig {
         return http.authorizeHttpRequests((authz) -> authz
         .requestMatchers(HttpMethod.GET,"/api/users").permitAll()
         .requestMatchers(HttpMethod.POST,"/api/users/register").permitAll()
+        .requestMatchers(HttpMethod.POST,"/api/users/create").permitAll()
+        .requestMatchers(HttpMethod.POST,"/api/auth/login").permitAll()
         .requestMatchers(HttpMethod.POST,"/api/users").hasRole("ADMIN")
         .anyRequest().authenticated())
         .addFilter(new JwtAuthenticationFilter(authenticationManager()))
         .addFilter(new JwtValidationFilter(authenticationManager()))
         .csrf(config -> config.disable())
         .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-        .sessionManagement(management ->management.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).build();   
+        .sessionManagement(management ->
+                        management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                        .build();   
     }
 
     @Bean
@@ -77,5 +87,6 @@ public class SpringSecurityConfig {
 
         return corsBean;
     }
+
 
 }

@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.dentali.entities.User;
 
+
+
 public interface UserService {
 
     List<User> findAll();
@@ -12,4 +14,5 @@ public interface UserService {
 
     boolean existsByUserName(String username);
 
+    String verify(User user);
 }
