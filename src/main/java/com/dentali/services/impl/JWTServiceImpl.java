@@ -57,4 +57,14 @@ public class JWTServiceImpl implements JWTService {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
+
+    @Override
+    public boolean validateToken(String token, String username) {
+        
+        return false;
+    }
+    @Override
+    public String extractUsername(String token) {
+        return "";
+    }
 }
