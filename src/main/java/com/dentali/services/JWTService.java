@@ -7,5 +7,5 @@ public interface JWTService {
 
     boolean validateToken(String token, String username);
 
-    //String getUsernameFromToken(String token);
+    public String extractUsername(String token);
 }
