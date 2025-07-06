@@ -3,6 +3,7 @@ package com.dentali.security.filter;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.dentali.services.JWTService;
@@ -30,6 +31,14 @@ public class JWTFilter extends OncePerRequestFilter {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
             username = jwtService.extractUsername(token);
+        }
+
+        if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            
+            if (jwtService.validateToken(token, username)) {
+               
+            }
+
         }
     }
 
