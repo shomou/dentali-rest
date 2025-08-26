@@ -1,17 +1,29 @@
 package com.dentali.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 public class UserDoctorRegistrationDTO {
 
     // Datos del usuario
+    @NotBlank(message = "no puede estar vacío")
+    @Size(min = 3, max = 30, message = "debe tener entre 3 y 20 caracteres")
     private String username;
+    @NotBlank(message = "no puede estar vacía")
+    @Size(min = 6, message = "Debe tener al menos 6 caracteres")
     private String password;
-    private String Role;
+    private String role;
 
     // Datos del doctor
+    @NotBlank(message = "no puede estar vacío")
     private String nombre;
+    @NotBlank(message = "no puede estar vacío")
     private String apellido;
     private String especialidad;
     private String telefono;
+    @NotBlank(message = "no puede estar vacío")
+    @Email(message = "debe ser una dirección de correo electrónico válida")
     private String email;
 
     // Constructor
@@ -35,11 +47,11 @@ public class UserDoctorRegistrationDTO {
     }
 
     public String getRole() {
-        return Role;
+        return role;
     }
 
     public void setRole(String role) {
-        Role = role;
+        this.role = role;
     }
 
     public String getNombre() {

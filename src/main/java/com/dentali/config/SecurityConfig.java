@@ -12,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -28,18 +29,16 @@ import org.springframework.web.cors.CorsConfigurationSource;
 @Slf4j
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
-    
-    @Autowired
-    private JwtFilter jwtFilter;
 
+    private final JwtFilter jwtFilter;
+    private final UserDetailsService userDetailsService;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
-
-    SecurityConfig(JwtFilter jwtFilter) {
+    public SecurityConfig(JwtFilter jwtFilter, UserDetailsService userDetailsService) {
         this.jwtFilter = jwtFilter;
+        this.userDetailsService = userDetailsService;
     }
 
     @Bean
@@ -48,8 +47,9 @@ public class SecurityConfig {
         return http.csrf(customizer -> customizer.disable()).
         		cors(cors -> cors.configurationSource(corsConfigurationSource())).
                 authorizeHttpRequests(request -> request
-                        .requestMatchers("/api/users/login","/api/users/register", "/api/users/list").permitAll()
-                        .anyRequest().authenticated()).
+                        .requestMatchers("/api/users/login","/api/users/register").permitAll()
+                        .anyRequest().authenticated()
+                        ).
                 httpBasic(Customizer.withDefaults()).
                 sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -72,9 +72,9 @@ public class SecurityConfig {
 
     @SuppressWarnings("deprecation")
 	@Bean
-    AuthenticationProvider authenticationProvider(){
+    AuthenticationProvider authenticationProvider(PasswordEncoder passwordEncoder){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setPasswordEncoder(new BCryptPasswordEncoder(12));
+        provider.setPasswordEncoder(passwordEncoder);
         provider.setUserDetailsService(userDetailsService);
         return provider;
     }
@@ -83,9 +83,11 @@ public class SecurityConfig {
     AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
+    
+    
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(12);
     }
 
