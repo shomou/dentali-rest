@@ -14,4 +14,5 @@ public interface JWTService {
     boolean isTokenExpired(String token);
 
     Date extractExpiration(String token);
+
 }
