@@ -40,8 +40,10 @@ public class UserServiceImpl implements UserService{
     private final JWTService jwtService;
     private final BCryptPasswordEncoder encoder; // Inyectar el bean en lugar de crearlo aquí
 	
-    
+
+
     // Constructores
+    @Autowired
     public UserServiceImpl(UserRepository repository, RoleRepository roleRepository, AuthenticationManager authManager
     					, JWTService jwtService, BCryptPasswordEncoder encoder, DoctorService doctorService) {
     				this.repository = repository;
@@ -69,25 +71,6 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    @Transactional
-    public User save(User user) {
-        Optional<Role> optionalRoleUser = roleRepository.findByName("ROLE_USER");
-        List<Role> roles = new ArrayList<>();
-      
-        optionalRoleUser.ifPresent(roles::add);
-
-        if(user.isAdmin()){
-            Optional<Role> optionalRoleAdmin =  roleRepository.findByName("ROLE_ADMIN");
-            optionalRoleAdmin.ifPresent(roles::add);
-        }
-
-        user.setRoles(roles);
-        user.setPassword(encoder.encode(user.getPassword()));
-
-        return repository.save(user);
-    }
-
-    @Override
     public boolean existsByUserName(String username) {
         
         return repository.existsByUsername(username);
@@ -111,39 +94,44 @@ public class UserServiceImpl implements UserService{
     @Transactional
     public UserDoctorRegistrationDTO registerUserWithDoctor(UserDoctorRegistrationDTO dto){
 
-        // Crear y guardar el usuario
+        // 1. Mapear el DTO a la entidad User
         User newUser = new User();
-        List<Role> roles = new ArrayList<>();
+        newUser.setUsername(dto.getUsername());
+        newUser.setPassword(encoder.encode(dto.getPassword()));
 
-        roleRepository.findByName("ROLE_USER").ifPresent(roles::add);
+        // Asignar roles de forma segura
+        List<Role> roles = new ArrayList<>();
+        roleRepository.findByName("ROLE_USER")
+                .orElseThrow(() -> new RuntimeException("Error: El rol ROLE_USER no se encuentra en la base de datos."));
+        roles.add(roleRepository.findByName("ROLE_USER").get());
 
         if (dto.getRole() != null && dto.getRole().equalsIgnoreCase("ROLE_ADMIN")) {
             roleRepository.findByName("ROLE_ADMIN").ifPresent(roles::add);
         }
-
-        newUser.setUsername(dto.getUsername());
-        newUser.setPassword(encoder.encode(dto.getPassword()));
         newUser.setRoles(roles);
 
+        // 2. Guardar la entidad User
         repository.save(newUser);
 
-        // Crear y guardar el doctor asociado
-        DoctorDTO nuevoDoctor = new DoctorDTO();
-        DoctorDTO nuevoDoctorSaved = new DoctorDTO();
+        // 3. Mapear el DTO a un DoctorDTO para el DoctorService
+        // Nota: Idealmente, DoctorService tendría un método que acepte una entidad Doctor.
+        // Como la interfaz actual requiere un DTO, hacemos el mapeo aquí.
+        DoctorDTO doctorParaGuardar = new DoctorDTO();
+        doctorParaGuardar.setNombre(dto.getNombre());
+        doctorParaGuardar.setApellido(dto.getApellido());
+        doctorParaGuardar.setEspecialidad(dto.getEspecialidad());
+        doctorParaGuardar.setTelefono(dto.getTelefono());
+        doctorParaGuardar.setEmail(dto.getEmail());
 
-        nuevoDoctor.setNombre(dto.getNombre());
-        nuevoDoctor.setApellido(dto.getApellido());
-        nuevoDoctor.setEspecialidad(dto.getEspecialidad());
-        nuevoDoctor.setTelefono(dto.getTelefono());
-        nuevoDoctor.setEmail(dto.getEmail());
+        // 4. Guardar el doctor a través de su servicio
+        DoctorDTO nuevoDoctorSaved = doctorService.guardar(doctorParaGuardar);
 
-        nuevoDoctorSaved =  doctorService.guardar(nuevoDoctor);
-
-        if (nuevoDoctorSaved.getNombre().equals(dto.getNombre())) {
+		// Comprobación robusta: verificar que el doctor se guardó y tiene un ID.
+		if (nuevoDoctorSaved != null && nuevoDoctorSaved.getId() != null) {
         	return dto;
 		} else {
-			throw new RuntimeException("Error al crear el doctor asociado");
+			// Esta excepción provocará un rollback de la transacción, por lo que el usuario tampoco se creará.
+			throw new RuntimeException("Error al crear el doctor asociado. La operación será revertida.");
 		}
-
     }
 }

@@ -5,7 +5,13 @@ public class LoginRequestDTO {
     private String username;
     private String password;
 
-    public LoginRequestDTO(String username, String password) {}
+    // Constructor sin argumentos (necesario para la deserialización de JSON por frameworks como Jackson)
+    public LoginRequestDTO() {}
+
+    public LoginRequestDTO(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 
     public String getUsername() {
         return username;

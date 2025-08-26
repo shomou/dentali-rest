@@ -13,8 +13,6 @@ public interface UserService {
 
     List<UserResponseDTO> findAll();
 
-    User save(User user);
-
     boolean existsByUserName(String username);
 
     String verify(LoginRequestDTO loginRequest);

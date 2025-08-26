@@ -1,11 +1,12 @@
 package com.dentali.controllers;
 
-
-import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
+import com.dentali.dto.UserResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +28,7 @@ public class UserController {
 
     private final UserService userService;
 
+
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -41,41 +43,16 @@ public class UserController {
      
 
     @GetMapping("/list")
-    public ResponseEntity<?> list(){
-
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
-                .body(Collections.singletonMap("error", "This endpoint is disabled for security reasons. Use a DTO if needed."));
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<UserResponseDTO>> list(){
+        return ResponseEntity.ok(userService.findAll());
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody User user) {  
-        /* 
-        if(result.hasFieldErrors()){
-            return validation(result);
-        }*/
-
-                
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));
-    }
-    
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody UserDoctorRegistrationDTO  userDoctorRegistrationDTO) {
+    public ResponseEntity<?> register(@RequestBody @Valid UserDoctorRegistrationDTO  userDoctorRegistrationDTO) {
 
         UserDoctorRegistrationDTO registeredUser = userService.registerUserWithDoctor(userDoctorRegistrationDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(registeredUser);
     }
-
-
-   
-    /*
-    private ResponseEntity <?> validation(BindingResult result){
-       Map<String, String> errors = new HashMap<>();
-       result.getFieldErrors().forEach(err ->
-       {
-           errors.put(err.getField(), "El campo "+err.getField()+" "+ err.getDefaultMessage());
-       }); 
-        
-       return ResponseEntity.badRequest().body(errors);
-    } */
 
 }
