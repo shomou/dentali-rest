@@ -43,16 +43,15 @@ public class UserServiceImpl implements UserService{
 
 
     // Constructores
-    @Autowired
     public UserServiceImpl(UserRepository repository, RoleRepository roleRepository, AuthenticationManager authManager
-    					, JWTService jwtService, BCryptPasswordEncoder encoder, DoctorService doctorService) {
-    				this.repository = repository;
-    				this.doctorService = doctorService;
-    				this.roleRepository = roleRepository;
-    				this.authManager = authManager;
-    				this.jwtService = jwtService;
-    				this.encoder = encoder;
-		    }
+        , JWTService jwtService, BCryptPasswordEncoder encoder, DoctorService doctorService) {
+        this.repository = repository;
+        this.doctorService = doctorService;
+        this.roleRepository = roleRepository;
+        this.authManager = authManager;
+        this.jwtService = jwtService;
+        this.encoder = encoder;
+    }
 	
 
     @Override
@@ -82,7 +81,8 @@ public class UserServiceImpl implements UserService{
             Authentication authentication = authManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
             );
-            return jwtService.generateToken(loginRequest.getUsername());
+            String token = jwtService.generateToken(authentication.getName());
+            return token;
         } catch (AuthenticationException e) {
             throw new RuntimeException("Credenciales inválidas", e); // O una excepción personalizada
         }
@@ -128,7 +128,7 @@ public class UserServiceImpl implements UserService{
 
 		// Comprobación robusta: verificar que el doctor se guardó y tiene un ID.
 		if (nuevoDoctorSaved != null && nuevoDoctorSaved.getId() != null) {
-        	return dto;
+            return dto;
 		} else {
 			// Esta excepción provocará un rollback de la transacción, por lo que el usuario tampoco se creará.
 			throw new RuntimeException("Error al crear el doctor asociado. La operación será revertida.");

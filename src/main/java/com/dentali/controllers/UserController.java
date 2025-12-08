@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dentali.dto.LoginRequestDTO;
 import com.dentali.dto.UserDoctorRegistrationDTO;
-import com.dentali.entities.User;
 import com.dentali.services.UserService;
 
 import jakarta.validation.Valid;
@@ -35,12 +34,12 @@ public class UserController {
 
 
     @PostMapping("/login")
-   public ResponseEntity<?> login(@RequestBody @Valid LoginRequestDTO loginRequest) {
+    public ResponseEntity<?> login(@RequestBody @Valid LoginRequestDTO loginRequest) {
        // La lógica de try-catch ahora es manejada por GlobalExceptionHandler
-       String token = userService.verify(loginRequest);
-       return ResponseEntity.ok(Map.of("token", token));
-   }
-     
+        String token = userService.verify(loginRequest);
+        return ResponseEntity.ok(Map.of("token", token));
+    }
+    
 
     @GetMapping("/list")
     @PreAuthorize("hasRole('ADMIN')")
