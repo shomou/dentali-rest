@@ -2,7 +2,6 @@ package com.dentali.services.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -11,7 +10,6 @@ import com.dentali.dto.LoginRequestDTO;
 import com.dentali.dto.UserDoctorRegistrationDTO;
 import com.dentali.dto.UserResponseDTO;
 import com.dentali.services.DoctorService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
