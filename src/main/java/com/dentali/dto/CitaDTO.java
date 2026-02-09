@@ -2,7 +2,7 @@ package com.dentali.dto;
 
 import java.time.LocalDateTime;
 
-import com.dentali.Enum.EstadoCita;
+import com.dentali.enums.EstadoCita;
 
 public class CitaDTO {
 
@@ -22,6 +22,10 @@ public class CitaDTO {
 		this.motivo = motivo;
 		this.estado = estado;
 		this.fecha = fecha;
+	}
+
+	// Constructor por defecto necesario para deserialización
+	public CitaDTO() {
 	}
 
 	public Long getId() {

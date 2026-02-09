@@ -19,36 +19,31 @@ import com.dentali.dto.UserDoctorRegistrationDTO;
 import com.dentali.services.UserService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/users")
 @CrossOrigin(origins = "http://localhost:4200")
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
-
-
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid LoginRequestDTO loginRequest) {
-       // La lógica de try-catch ahora es manejada por GlobalExceptionHandler
+        // La lógica de try-catch ahora es manejada por GlobalExceptionHandler
         String token = userService.verify(loginRequest);
         return ResponseEntity.ok(Map.of("token", token));
     }
-    
 
     @GetMapping("/list")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<UserResponseDTO>> list(){
+    public ResponseEntity<List<UserResponseDTO>> list() {
         return ResponseEntity.ok(userService.findAll());
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody @Valid UserDoctorRegistrationDTO  userDoctorRegistrationDTO) {
+    public ResponseEntity<?> register(@RequestBody @Valid UserDoctorRegistrationDTO userDoctorRegistrationDTO) {
 
         UserDoctorRegistrationDTO registeredUser = userService.registerUserWithDoctor(userDoctorRegistrationDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(registeredUser);

@@ -3,7 +3,7 @@ package com.dentali.entities;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import com.dentali.Enum.MetodoPago;
+import com.dentali.enums.MetodoPago;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,34 +18,33 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-
 @Entity
 @Table(name = "pagos")
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class Pago {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "paciente_id", nullable = false)
-    private Paciente paciente;
+	@ManyToOne
+	@JoinColumn(name = "paciente_id", nullable = false)
+	private Paciente paciente;
 
-    @ManyToOne
-    @JoinColumn(name = "tratamiento_id", nullable = true)
-    private Tratamiento tratamiento;
+	@ManyToOne
+	@JoinColumn(name = "tratamiento_id", nullable = true)
+	private Tratamiento tratamiento;
 
-    private BigDecimal monto;
+	private BigDecimal monto;
 
-    @Enumerated(EnumType.STRING)
-    private MetodoPago metodoPago;
+	@Enumerated(EnumType.STRING)
+	private MetodoPago metodoPago;
 
-    @Column(name = "fecha_pago")
-    private LocalDateTime fechaPago = LocalDateTime.now();
-    
-    
-    // Getters y Setters
-    
+	@Column(name = "fecha_pago")
+	private LocalDateTime fechaPago = LocalDateTime.now();
+
+	// Getters y Setters
+
 	public Long getId() {
 		return id;
 	}
@@ -93,9 +92,5 @@ public class Pago {
 	public void setFechaPago(LocalDateTime fechaPago) {
 		this.fechaPago = fechaPago;
 	}
-    
-    
+
 }
-
-
-

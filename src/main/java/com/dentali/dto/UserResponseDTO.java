@@ -17,6 +17,10 @@ public class UserResponseDTO {
 	}
 	
     // Getters y Setters
+
+		// Constructor por defecto necesario para deserialización
+		public UserResponseDTO() {
+		}
     public Long getId() {
 		return id;
 	}

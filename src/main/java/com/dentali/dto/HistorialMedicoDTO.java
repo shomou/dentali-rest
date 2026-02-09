@@ -26,6 +26,10 @@ public class HistorialMedicoDTO {
 		this.fechaActualizacion = fechaActualizacion;	
 	}
 
+	// Constructor por defecto necesario para deserialización
+	public HistorialMedicoDTO() {
+	}
+
 	// Getters & Setters
 	public Long getId() {
 		return id;

@@ -3,7 +3,6 @@ package com.dentali.controllers;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,58 +23,56 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/tratamientos")
 @RequiredArgsConstructor
 public class TratamientoController {
-	
-	@Autowired
-	private TratamientoService tratamientoService;
-	
+
+	private final TratamientoService tratamientoService;
+
 	// listar
 	@GetMapping("/list")
-	public List<Tratamiento> list(){
+	public List<Tratamiento> list() {
 		return tratamientoService.obtenerTodos();
 	}
-	
+
 	// create
 	@PostMapping
-	public ResponseEntity<?> create(@RequestBody Tratamiento tratamiento){
-		
+	public ResponseEntity<?> create(@RequestBody Tratamiento tratamiento) {
+
 		return ResponseEntity.ok(tratamientoService.guardar(tratamiento));
 	}
-	
+
 	// buscar por paciente
 	@GetMapping("/paciente/{id}")
-	public ResponseEntity<?> viewPaciente(@PathVariable Long id){
-		
-		List<Tratamiento> tratamientoPaciente =  tratamientoService.buscarPorPaciente(id);
-		
-		if(!tratamientoPaciente.isEmpty()) {
+	public ResponseEntity<?> viewPaciente(@PathVariable Long id) {
+
+		List<Tratamiento> tratamientoPaciente = tratamientoService.buscarPorPaciente(id);
+
+		if (!tratamientoPaciente.isEmpty()) {
 			return ResponseEntity.ok(tratamientoPaciente);
 		}
-		
+
 		return ResponseEntity.notFound().build();
 	}
-	
+
 	// update
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@RequestBody Tratamiento tratamiento, @PathVariable Long id){
-		
+	public ResponseEntity<?> update(@RequestBody Tratamiento tratamiento, @PathVariable Long id) {
+
 		Optional<Tratamiento> tratamientoOptional = tratamientoService.update(id, tratamiento);
-		
-		if(tratamientoOptional.isPresent()) {
+
+		if (tratamientoOptional.isPresent()) {
 			return ResponseEntity.status(HttpStatus.CREATED).body(tratamientoOptional.orElseThrow());
 		}
 		return ResponseEntity.notFound().build();
 	}
-	
-	
+
 	// delete
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable Long id){
-		
+	public ResponseEntity<?> delete(@PathVariable Long id) {
+
 		Optional<Tratamiento> tratamientoOptional = tratamientoService.eliminar(id);
-		
-		if(tratamientoOptional.isPresent()) {
+
+		if (tratamientoOptional.isPresent()) {
 			return ResponseEntity.ok(tratamientoOptional.orElseThrow());
 		}
 		return ResponseEntity.notFound().build();
-	}	
+	}
 }
