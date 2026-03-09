@@ -80,10 +80,10 @@ public class UserServiceImpl implements UserService {
 
         // Asignar roles de forma segura
         List<Role> roles = new ArrayList<>();
-        roleRepository.findByName("ROLE_USER")
+        Role userRole = roleRepository.findByName("ROLE_USER")
                 .orElseThrow(
                         () -> new RuntimeException("Error: El rol ROLE_USER no se encuentra en la base de datos."));
-        roles.add(roleRepository.findByName("ROLE_USER").get());
+        roles.add(userRole);
 
         if (dto.getRole() != null && dto.getRole().equalsIgnoreCase("ROLE_ADMIN")) {
             roleRepository.findByName("ROLE_ADMIN").ifPresent(roles::add);
