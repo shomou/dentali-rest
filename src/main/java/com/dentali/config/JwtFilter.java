@@ -12,6 +12,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import io.jsonwebtoken.JwtException;
+
 import com.dentali.services.JWTService;
 import com.dentali.services.impl.MyUserDetailsServiceImpl;
 
@@ -44,8 +46,12 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
-            username = jwtService.extractUsername(token);
-            log.debug("JWT token found for user: {}", username);
+            try {
+                username = jwtService.extractUsername(token);
+                log.debug("JWT token found for user: {}", username);
+            } catch (JwtException e) {
+                log.warn("Invalid JWT signature/token blocked: {}", e.getMessage());
+            }
         } else {
             log.debug("No JWT token found in Authorization header");
         }
