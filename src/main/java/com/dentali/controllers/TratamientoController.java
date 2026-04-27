@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dentali.entities.Tratamiento;
+import com.dentali.dto.TratamientoDTO;
 import com.dentali.services.TratamientoService;
 
 import lombok.RequiredArgsConstructor;
@@ -28,13 +28,13 @@ public class TratamientoController {
 
 	// listar
 	@GetMapping("/list")
-	public List<Tratamiento> list() {
+	public List<TratamientoDTO> list() {
 		return tratamientoService.obtenerTodos();
 	}
 
 	// create
 	@PostMapping
-	public ResponseEntity<?> create(@RequestBody Tratamiento tratamiento) {
+	public ResponseEntity<?> create(@RequestBody TratamientoDTO tratamiento) {
 
 		return ResponseEntity.ok(tratamientoService.guardar(tratamiento));
 	}
@@ -43,7 +43,7 @@ public class TratamientoController {
 	@GetMapping("/paciente/{id}")
 	public ResponseEntity<?> viewPaciente(@PathVariable Long id) {
 
-		List<Tratamiento> tratamientoPaciente = tratamientoService.buscarPorPaciente(id);
+		List<TratamientoDTO> tratamientoPaciente = tratamientoService.buscarPorPaciente(id);
 
 		if (!tratamientoPaciente.isEmpty()) {
 			return ResponseEntity.ok(tratamientoPaciente);
@@ -54,9 +54,9 @@ public class TratamientoController {
 
 	// update
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@RequestBody Tratamiento tratamiento, @PathVariable Long id) {
+	public ResponseEntity<?> update(@RequestBody TratamientoDTO tratamiento, @PathVariable Long id) {
 
-		Optional<Tratamiento> tratamientoOptional = tratamientoService.update(id, tratamiento);
+		Optional<TratamientoDTO> tratamientoOptional = tratamientoService.actualizar(id, tratamiento);
 
 		if (tratamientoOptional.isPresent()) {
 			return ResponseEntity.status(HttpStatus.CREATED).body(tratamientoOptional.orElseThrow());
@@ -68,7 +68,7 @@ public class TratamientoController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 
-		Optional<Tratamiento> tratamientoOptional = tratamientoService.eliminar(id);
+		Optional<TratamientoDTO> tratamientoOptional = tratamientoService.eliminar(id);
 
 		if (tratamientoOptional.isPresent()) {
 			return ResponseEntity.ok(tratamientoOptional.orElseThrow());

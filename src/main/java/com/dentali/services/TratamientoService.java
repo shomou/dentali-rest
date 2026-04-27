@@ -3,19 +3,19 @@ package com.dentali.services;
 import java.util.List;
 import java.util.Optional;
 
-import com.dentali.entities.Tratamiento;
+//import com.dentali.entities.Tratamiento;
+import com.dentali.dto.TratamientoDTO;
 
 public interface TratamientoService {
 
-	public List<Tratamiento> obtenerTodos();
-	
-	public Tratamiento guardar(Tratamiento tratamiento);
-	
-	public List<Tratamiento> buscarPorPaciente(Long id);
-	
-	public Optional<Tratamiento> eliminar (Long id);
-	
-	Optional<Tratamiento> update(Long id, Tratamiento tratamiento);
-	
-}
+	public List<TratamientoDTO> obtenerTodos();
 
+	public TratamientoDTO guardar(TratamientoDTO tratamientodto);
+
+	public List<TratamientoDTO> buscarPorPaciente(Long id);
+
+	public Optional<TratamientoDTO> eliminar(Long id);
+
+	Optional<TratamientoDTO> actualizar(Long id, TratamientoDTO tratamientoDTO);
+
+}
