@@ -57,7 +57,10 @@ public class HistorialMedicoServiceImpl implements HistorialMedicoServices{
 
 	@Override
 	@Transactional(readOnly = true)
-	public HistorialMedicoDTO buscarPacienteId (Long id){		
+	public HistorialMedicoDTO buscarPacienteId (Long id){
+		if (id == null) {
+			return null;
+		}
 		return historialRepository.findById(id)
 				.map(historialMapper::toDTO)
 				.orElse(null);
@@ -66,6 +69,9 @@ public class HistorialMedicoServiceImpl implements HistorialMedicoServices{
 	@Override
 	@Transactional
 	public HistorialMedicoDTO update( HistorialMedicoDTO historialDTO){
+		if (historialDTO.getId() == null) {
+			throw new IllegalArgumentException("El ID del historial médico no puede ser nulo.");
+		}
 
 		// Convertir el DTO a una entidad
 		HistorialMedico historialEntity = historialRepository.findById(historialDTO.getId())
@@ -77,8 +83,13 @@ public class HistorialMedicoServiceImpl implements HistorialMedicoServices{
 		if(historialEntity != null) {
 			// Actualizar los campos de la entidad
 			historialEntity.setId(historialDTO.getId());
-			historialEntity.setPaciente(pacienteRepository.findById(historialDTO.getPaciente_id()).orElse(null));
-			historialEntity.setDoctor(doctorRepository.findById(historialDTO.getDoctor_id()).orElse(null));
+			
+			historialEntity.setPaciente(historialDTO.getIdPaciente() != null ? 
+				pacienteRepository.findById(historialDTO.getIdPaciente()).orElse(null) : null);
+			
+			historialEntity.setDoctor(historialDTO.getIdDoctor() != null ? 
+				doctorRepository.findById(historialDTO.getIdDoctor()).orElse(null) : null);
+				
 			historialEntity.setAntecedentes(historialDTO.getAntecedentes());
 			historialEntity.setAlergias(historialDTO.getAlergias());
 			historialEntity.setMedicamentosActuales(historialDTO.getMedicamentosActuales());

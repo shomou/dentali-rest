@@ -19,8 +19,8 @@ public class HistorialMedicoMapper {
 
     public HistorialMedicoDTO toDTO(HistorialMedico historialMedico) {
         return new HistorialMedicoDTO(historialMedico.getId(), 
-        historialMedico.getPaciente().getId(),
-                historialMedico.getDoctor().getId(), 
+        historialMedico.getPaciente() != null ? historialMedico.getPaciente().getId() : null,
+                historialMedico.getDoctor() != null ? historialMedico.getDoctor().getId() : null, 
                 historialMedico.getAntecedentes(), 
                 historialMedico.getAlergias(),
                 historialMedico.getMedicamentosActuales(), 
@@ -31,8 +31,8 @@ public class HistorialMedicoMapper {
     public HistorialMedico toEntity(HistorialMedicoDTO dto) {
         return new HistorialMedico(
             dto.getId(),
-            repositoryP.findById(dto.getPaciente_id()).orElse(null), // Busca el paciente por ID
-            repositoryD.findById(dto.getDoctor_id()).orElse(null),  // Busca el doctor por ID
+            dto.getIdPaciente() != null ? repositoryP.findById(dto.getIdPaciente()).orElse(null) : null,
+            dto.getIdDoctor() != null ? repositoryD.findById(dto.getIdDoctor()).orElse(null) : null,
             dto.getAntecedentes(),
             dto.getAlergias(),
             dto.getMedicamentosActuales(),

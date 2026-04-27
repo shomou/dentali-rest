@@ -20,14 +20,21 @@ public class CitaMapper {
 	DoctorRepository repositoryD;
 	
 	public CitaDTO toDTO(Cita cita) {
-		return new CitaDTO(cita.getId(), cita.getPaciente().getId(), cita.getDoctor().getId(), cita.getMotivo(),
-				cita.getEstado(), cita.getFecha());
+		return new CitaDTO(cita.getId(), 
+				cita.getPaciente() != null ? cita.getPaciente().getId() : null, 
+				cita.getDoctor() != null ? cita.getDoctor().getId() : null, 
+				cita.getMotivo(),
+				cita.getEstado(), 
+				cita.getFecha());
 	}
 
 	public Cita toEntity(CitaDTO dto) {		
 		
-		Paciente paciente = repositoryP.findById(dto.getId_paciente()).orElseThrow(null);
-		Doctor doctor = repositoryD.findById(dto.getId_odontologo()).orElseThrow(null);
+		Paciente paciente = dto.getIdPaciente() != null ? 
+				repositoryP.findById(dto.getIdPaciente()).orElse(null) : null;
+				
+		Doctor doctor = dto.getIdOdontologo() != null ? 
+				repositoryD.findById(dto.getIdOdontologo()).orElse(null) : null;
 		
 		return new Cita(dto.getId(), doctor, paciente, dto.getEstado(), dto.getMotivo(), dto.getFecha());
 	}

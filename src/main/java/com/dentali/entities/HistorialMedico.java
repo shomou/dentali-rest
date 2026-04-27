@@ -25,7 +25,7 @@ public class HistorialMedico {
 	private Paciente paciente;
 
 	@ManyToOne
-	@JoinColumn(name = "doctor_id", nullable = true)
+	@JoinColumn(name = "doctor_id", nullable = false)
 	private Doctor doctor;
 
 	private String antecedentes;
@@ -39,7 +39,7 @@ public class HistorialMedico {
 	// Constructor
 	public HistorialMedico() {
 	}
-	
+
 	public HistorialMedico(Long id, Paciente paciente, Doctor doctor, String antecedentes, String alergias,
 			String medicamentosActuales, String enfermedadesCronicas) {
 		this.id = id;

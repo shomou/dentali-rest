@@ -25,9 +25,9 @@ public class TratamientoMapper {
     public TratamientoDTO toDTO(Tratamiento tratamiento) {
         TratamientoDTO tratamientoDTO = new TratamientoDTO();
         tratamientoDTO.setId(tratamiento.getId());
-        tratamientoDTO.setId_paciente(tratamiento.getPaciente().getId());
-        tratamientoDTO.setId_doctor(tratamiento.getDoctor().getId());
-        tratamientoDTO.setId_cita(tratamiento.getCita().getId());
+        tratamientoDTO.setIdPaciente(tratamiento.getPaciente() != null ? tratamiento.getPaciente().getId() : null);
+        tratamientoDTO.setIdDoctor(tratamiento.getDoctor() != null ? tratamiento.getDoctor().getId() : null);
+        tratamientoDTO.setIdCita(tratamiento.getCita() != null ? tratamiento.getCita().getId() : null);
         tratamientoDTO.setDescripcion(tratamiento.getDescripcion());
         tratamientoDTO.setCosto(tratamiento.getCosto());
         tratamientoDTO.setFecha(tratamiento.getFecha());
@@ -38,9 +38,16 @@ public class TratamientoMapper {
     public Tratamiento toEntity(TratamientoDTO tratamientoDTO) {
         Tratamiento tratamiento = new Tratamiento();
         tratamiento.setId(tratamientoDTO.getId());
-        tratamiento.setPaciente(repositoryP.findById(tratamientoDTO.getId_paciente()).orElse(null));
-        tratamiento.setDoctor(repositoryD.findById(tratamientoDTO.getId_doctor()).orElse(null));
-        tratamiento.setCita(repositoryC.findById(tratamientoDTO.getId_cita()).orElse(null));
+        
+        tratamiento.setPaciente(tratamientoDTO.getIdPaciente() != null ? 
+            repositoryP.findById(tratamientoDTO.getIdPaciente()).orElse(null) : null);
+        
+        tratamiento.setDoctor(tratamientoDTO.getIdDoctor() != null ? 
+            repositoryD.findById(tratamientoDTO.getIdDoctor()).orElse(null) : null);
+        
+        tratamiento.setCita(tratamientoDTO.getIdCita() != null ? 
+            repositoryC.findById(tratamientoDTO.getIdCita()).orElse(null) : null);
+            
         tratamiento.setDescripcion(tratamientoDTO.getDescripcion());
         tratamiento.setCosto(tratamientoDTO.getCosto());
         tratamiento.setFecha(tratamientoDTO.getFecha());

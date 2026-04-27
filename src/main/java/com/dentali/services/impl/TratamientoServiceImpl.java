@@ -46,6 +46,9 @@ public class TratamientoServiceImpl implements TratamientoService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<TratamientoDTO> buscarPorPaciente(Long id) {
+		if (id == null) {
+			return List.of();
+		}
 
 		return tratamientoRepository.findByPacienteId(id)
 				.stream()
@@ -56,6 +59,9 @@ public class TratamientoServiceImpl implements TratamientoService {
 	@Override
 	@Transactional
 	public Optional<TratamientoDTO> eliminar(Long id) {
+		if (id == null) {
+			return Optional.empty();
+		}
 
 		Optional<Tratamiento> tratamientoOptional = tratamientoRepository.findById(id);
 
@@ -71,6 +77,9 @@ public class TratamientoServiceImpl implements TratamientoService {
 	@Override
 	@Transactional
 	public Optional<TratamientoDTO> actualizar(Long id, TratamientoDTO tratamientoDTO) {
+		if (id == null) {
+			return Optional.empty();
+		}
 
 		Optional<Tratamiento> tratamientoOptional = tratamientoRepository.findById(id);
 

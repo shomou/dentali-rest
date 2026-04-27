@@ -67,7 +67,11 @@ public class CitaServiceImpl implements CitaService {
 
 		if (citaOptional.isPresent()) {
 			Cita citaDB = citaOptional.orElseThrow();
-			citaDB.setDoctor(repositoryD.findById(citaDTO.getId_odontologo()).orElse(null));
+			
+			if (citaDTO.getIdOdontologo() != null) {
+				citaDB.setDoctor(repositoryD.findById(citaDTO.getIdOdontologo()).orElse(null));
+			}
+			
 			citaDB.setMotivo(citaDTO.getMotivo());
 
 			// Guardar la cita con la cancelación
