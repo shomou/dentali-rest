@@ -2,21 +2,18 @@ package com.dentali.services.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-
 
 import com.dentali.dto.DoctorDTO;
 import com.dentali.dto.LoginRequestDTO;
 import com.dentali.dto.UserDoctorRegistrationDTO;
 import com.dentali.dto.UserResponseDTO;
 import com.dentali.services.DoctorService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.dentali.entities.Role;
@@ -30,30 +27,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor // Lombok genera el constructor con los campos final
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
-		
     private final UserRepository repository;
     private final DoctorService doctorService;
     private final RoleRepository roleRepository;
     private final AuthenticationManager authManager;
     private final JWTService jwtService;
-    private final BCryptPasswordEncoder encoder; // Inyectar el bean en lugar de crearlo aquí
-	
-
-
-    // Constructores
-    @Autowired
-    public UserServiceImpl(UserRepository repository, RoleRepository roleRepository, AuthenticationManager authManager
-    					, JWTService jwtService, BCryptPasswordEncoder encoder, DoctorService doctorService) {
-    				this.repository = repository;
-    				this.doctorService = doctorService;
-    				this.roleRepository = roleRepository;
-    				this.authManager = authManager;
-    				this.jwtService = jwtService;
-    				this.encoder = encoder;
-		    }
-	
+    private final PasswordEncoder passwordEncoder; // Inyectar el bean en lugar de crearlo aquí
 
     @Override
     @Transactional(readOnly = true) // Buena práctica para métodos de solo lectura
@@ -66,13 +47,13 @@ public class UserServiceImpl implements UserService{
                         user.getRoles()
                                 .stream()
                                 .map(Role::getName)
-                                .collect(Collectors.toList())
-                )).collect(Collectors.toList());
+                                .collect(Collectors.toList())))
+                .collect(Collectors.toList());
     }
 
     @Override
     public boolean existsByUserName(String username) {
-        
+
         return repository.existsByUsername(username);
     }
 
@@ -80,30 +61,29 @@ public class UserServiceImpl implements UserService{
     public String verify(LoginRequestDTO loginRequest) {
         try {
             Authentication authentication = authManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
-            );
-            return jwtService.generateToken(loginRequest.getUsername());
+                    new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+            String token = jwtService.generateToken(authentication.getName());
+            return token;
         } catch (AuthenticationException e) {
             throw new RuntimeException("Credenciales inválidas", e); // O una excepción personalizada
         }
     }
 
-
-
     @Override
     @Transactional
-    public UserDoctorRegistrationDTO registerUserWithDoctor(UserDoctorRegistrationDTO dto){
+    public UserDoctorRegistrationDTO registerUserWithDoctor(UserDoctorRegistrationDTO dto) {
 
         // 1. Mapear el DTO a la entidad User
         User newUser = new User();
         newUser.setUsername(dto.getUsername());
-        newUser.setPassword(encoder.encode(dto.getPassword()));
+        newUser.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         // Asignar roles de forma segura
         List<Role> roles = new ArrayList<>();
-        roleRepository.findByName("ROLE_USER")
-                .orElseThrow(() -> new RuntimeException("Error: El rol ROLE_USER no se encuentra en la base de datos."));
-        roles.add(roleRepository.findByName("ROLE_USER").get());
+        Role userRole = roleRepository.findByName("ROLE_USER")
+                .orElseThrow(
+                        () -> new RuntimeException("Error: El rol ROLE_USER no se encuentra en la base de datos."));
+        roles.add(userRole);
 
         if (dto.getRole() != null && dto.getRole().equalsIgnoreCase("ROLE_ADMIN")) {
             roleRepository.findByName("ROLE_ADMIN").ifPresent(roles::add);
@@ -114,7 +94,8 @@ public class UserServiceImpl implements UserService{
         repository.save(newUser);
 
         // 3. Mapear el DTO a un DoctorDTO para el DoctorService
-        // Nota: Idealmente, DoctorService tendría un método que acepte una entidad Doctor.
+        // Nota: Idealmente, DoctorService tendría un método que acepte una entidad
+        // Doctor.
         // Como la interfaz actual requiere un DTO, hacemos el mapeo aquí.
         DoctorDTO doctorParaGuardar = new DoctorDTO();
         doctorParaGuardar.setNombre(dto.getNombre());
@@ -126,12 +107,13 @@ public class UserServiceImpl implements UserService{
         // 4. Guardar el doctor a través de su servicio
         DoctorDTO nuevoDoctorSaved = doctorService.guardar(doctorParaGuardar);
 
-		// Comprobación robusta: verificar que el doctor se guardó y tiene un ID.
-		if (nuevoDoctorSaved != null && nuevoDoctorSaved.getId() != null) {
-        	return dto;
-		} else {
-			// Esta excepción provocará un rollback de la transacción, por lo que el usuario tampoco se creará.
-			throw new RuntimeException("Error al crear el doctor asociado. La operación será revertida.");
-		}
+        // Comprobación robusta: verificar que el doctor se guardó y tiene un ID.
+        if (nuevoDoctorSaved != null && nuevoDoctorSaved.getId() != null) {
+            return dto;
+        } else {
+            // Esta excepción provocará un rollback de la transacción, por lo que el usuario
+            // tampoco se creará.
+            throw new RuntimeException("Error al crear el doctor asociado. La operación será revertida.");
+        }
     }
 }

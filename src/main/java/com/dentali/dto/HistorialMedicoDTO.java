@@ -2,11 +2,18 @@ package com.dentali.dto;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class HistorialMedicoDTO {
 
 	private Long id;
-	private Long paciente_id;
-	private Long doctor_id;
+	
+	@JsonProperty("paciente_id")
+	private Long idPaciente;
+	
+	@JsonProperty("doctor_id")
+	private Long idDoctor;
+	
 	private String antecedentes;
 	private String alergias;
 	private String medicamentosActuales;
@@ -14,16 +21,20 @@ public class HistorialMedicoDTO {
 	private LocalDateTime fechaActualizacion;
 	
 	// Constructor
-	public HistorialMedicoDTO(Long id, Long paciente_id, Long doctor_id, String antecedentes, String alergias,
+	public HistorialMedicoDTO(Long id, Long idPaciente, Long idDoctor, String antecedentes, String alergias,
 			String medicamentosActuales, String enfermedadesCronicas, LocalDateTime fechaActualizacion) {
 		this.id = id;
-		this.paciente_id = paciente_id;	
-		this.doctor_id = doctor_id;
+		this.idPaciente = idPaciente;	
+		this.idDoctor = idDoctor;
 		this.antecedentes = antecedentes;
 		this.alergias = alergias;
 		this.medicamentosActuales = medicamentosActuales;
 		this.enfermedadesCronicas = enfermedadesCronicas;
 		this.fechaActualizacion = fechaActualizacion;	
+	}
+
+	// Constructor por defecto necesario para deserialización
+	public HistorialMedicoDTO() {
 	}
 
 	// Getters & Setters
@@ -35,20 +46,20 @@ public class HistorialMedicoDTO {
 		this.id = id;
 	}
 
-	public Long getPaciente_id() {
-		return paciente_id;
+	public Long getIdPaciente() {
+		return idPaciente;
 	}
 
-	public void setPaciente_id(Long paciente_id) {
-		this.paciente_id = paciente_id;
+	public void setIdPaciente(Long idPaciente) {
+		this.idPaciente = idPaciente;
 	}
 
-	public Long getDoctor_id() {
-		return doctor_id;
+	public Long getIdDoctor() {
+		return idDoctor;
 	}
 
-	public void setDoctor_id(Long doctor_id) {
-		this.doctor_id = doctor_id;
+	public void setIdDoctor(Long idDoctor) {
+		this.idDoctor = idDoctor;
 	}
 
 	public String getAntecedentes() {
@@ -90,7 +101,5 @@ public class HistorialMedicoDTO {
 	public void setFechaActualizacion(LocalDateTime fechaActualizacion) {
 		this.fechaActualizacion = fechaActualizacion;
 	}
-	
-	
 	
 }

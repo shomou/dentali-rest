@@ -3,7 +3,7 @@ package com.dentali.dto;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import com.dentali.Enum.MetodoPago;
+import com.dentali.enums.MetodoPago;
 
 public class PagoDTO {
 

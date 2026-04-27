@@ -3,12 +3,21 @@ package com.dentali.dto;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class TratamientoDTO {
 
 	private Long id;
-	private Long id_paciente;
-	private Long id_doctor;
-	private Long id_cita;
+	
+	@JsonProperty("paciente_id")
+	private Long idPaciente;
+	
+	@JsonProperty("doctor_id")
+	private Long idDoctor;
+	
+	@JsonProperty("cita_id")
+	private Long idCita;
+	
 	private String descripcion;
 	private BigDecimal costo;
 	private LocalDateTime fecha = LocalDateTime.now();
@@ -27,28 +36,28 @@ public class TratamientoDTO {
 		this.id = id;
 	}
 
-	public Long getId_paciente() {
-		return id_paciente;
+	public Long getIdPaciente() {
+		return idPaciente;
 	}
 
-	public void setId_paciente(Long id_paciente) {
-		this.id_paciente = id_paciente;
+	public void setIdPaciente(Long idPaciente) {
+		this.idPaciente = idPaciente;
 	}
 
-	public Long getId_doctor() {
-		return id_doctor;
+	public Long getIdDoctor() {
+		return idDoctor;
 	}
 
-	public void setId_doctor(Long id_doctor) {
-		this.id_doctor = id_doctor;
+	public void setIdDoctor(Long idDoctor) {
+		this.idDoctor = idDoctor;
 	}
 
-	public Long getId_cita() {
-		return id_cita;
+	public Long getIdCita() {
+		return idCita;
 	}
 
-	public void setId_cita(Long id_cita) {
-		this.id_cita = id_cita;
+	public void setIdCita(Long idCita) {
+		this.idCita = idCita;
 	}
 
 	public String getDescripcion() {

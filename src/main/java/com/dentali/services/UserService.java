@@ -5,7 +5,7 @@ import java.util.List;
 import com.dentali.dto.LoginRequestDTO;
 import com.dentali.dto.UserDoctorRegistrationDTO;
 import com.dentali.dto.UserResponseDTO;
-import com.dentali.entities.User;
+
 
 
 

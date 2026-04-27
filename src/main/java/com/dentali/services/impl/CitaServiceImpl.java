@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dentali.Enum.EstadoCita;
+import com.dentali.enums.EstadoCita;
 import com.dentali.dto.CitaDTO;
 import com.dentali.entities.Cita;
 import com.dentali.mapper.CitaMapper;
@@ -17,92 +17,94 @@ import com.dentali.repositories.DoctorRepository;
 import com.dentali.services.CitaService;
 
 @Service
-public class CitaServiceImpl implements CitaService{
+public class CitaServiceImpl implements CitaService {
 
 	@Autowired
-    private CitaRepository citaRepository;
-	
+	private CitaRepository citaRepository;
 
 	@Autowired
 	private DoctorRepository repositoryD;
-	
+
 	@Autowired
 	private CitaMapper citaMapper;
-	
+
 	// Listar Citas
 	@Override
-	@Transactional( readOnly = true )
+	@Transactional(readOnly = true)
 	public List<CitaDTO> listar() {
-		
-		return  citaRepository.findAll().stream()
+
+		return citaRepository.findAll().stream()
 				.map(citaMapper::toDTO)
 				.collect(Collectors.toList());
-		     
-    }
-	
+
+	}
+
 	// Buscar Cita por ID
-		@Override
-		@Transactional( readOnly = true )
-		public Optional<CitaDTO> obtenerCita(Long id) {
-			
-			return  citaRepository.findById(id)
-					.map(citaMapper::toDTO);
-			     
-	    }
+	@Override
+	@Transactional(readOnly = true)
+	public Optional<CitaDTO> obtenerCita(Long id) {
+
+		return citaRepository.findById(id)
+				.map(citaMapper::toDTO);
+
+	}
 
 	// Guardar Cita
 	@Override
 	@Transactional
-    public CitaDTO guardar(CitaDTO citaDTO) {
+	public CitaDTO guardar(CitaDTO citaDTO) {
 		// Convertir un DTO a una entidad
 		Cita cita = citaMapper.toEntity(citaDTO);
-        return citaMapper.toDTO(citaRepository.save(cita));
-    }
-	
+		return citaMapper.toDTO(citaRepository.save(cita));
+	}
+
 	// Actualizar Cita
 	@Override
 	@Transactional
 	public Optional<CitaDTO> actualizar(Long id, CitaDTO citaDTO) {
-		
+
 		Optional<Cita> citaOptional = citaRepository.findById(id);
-		
-		if(citaOptional.isPresent()) {
+
+		if (citaOptional.isPresent()) {
 			Cita citaDB = citaOptional.orElseThrow();
-			citaDB.setDoctor(repositoryD.findById(citaDTO.getId_odontologo()).orElse(null));
-			citaDB.setMotivo(citaDTO.getMotivo());
 			
+			if (citaDTO.getIdOdontologo() != null) {
+				citaDB.setDoctor(repositoryD.findById(citaDTO.getIdOdontologo()).orElse(null));
+			}
+			
+			citaDB.setMotivo(citaDTO.getMotivo());
+
 			// Guardar la cita con la cancelación
 			Cita citaActualizada = citaRepository.save(citaDB);
-			
+
 			return Optional.of(citaMapper.toDTO(citaActualizada));
 		}
 		return Optional.empty();
-		
+
 	}
-	
+
 	// Cancelar Cita
 	@Override
 	@Transactional
 	public Optional<CitaDTO> cancelar(Long id, CitaDTO citaDTO) {
-		
+
 		Optional<Cita> citaOptional = citaRepository.findById(id);
-	
-		EstadoCita estado =EstadoCita.CANCELADA;
-		
-		if(citaOptional.isPresent()) {
+
+		EstadoCita estado = EstadoCita.CANCELADA;
+
+		if (citaOptional.isPresent()) {
 			Cita citaDB = citaOptional.orElseThrow();
 			citaDB.setEstado(estado);
 			citaDB.setMotivo(citaDTO.getMotivo());
-			
+
 			// Guardar la cita con la cancelación
 			Cita citaActualizada = citaRepository.save(citaDB);
-			
-			// Convertir la entidad ewn DTO y regresamos la respuesta		
+
+			// Convertir la entidad ewn DTO y regresamos la respuesta
 			return Optional.of(citaMapper.toDTO(citaActualizada));
 		}
-		
+
 		return Optional.empty();
 	}
 
-		
 }

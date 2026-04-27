@@ -3,13 +3,20 @@ package com.dentali.dto;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
 public class PacienteDTO {
 
 	private Long id;
+	@NotBlank(message = "El nombre es obligatorio")
 	private String nombre;
+	@NotBlank(message = "El apellido es obligatorio")
 	private String apellido;
 	private LocalDate fechaNacimiento;
 	private String telefono;
+	@Email(message = "Formato de email inválido")
+	@NotBlank(message = "El email es obligatorio")
 	private String email;
 	private String direccion;
 	private LocalDateTime fechaRegistro;
@@ -18,6 +25,7 @@ public class PacienteDTO {
 	public PacienteDTO() {
 
 	}
+
 	public PacienteDTO(Long id, String nombre, String apellido, LocalDate fechaNacimiento,
 			String telefono, String email, String direccion, LocalDateTime fechaRegistro) {
 		this.id = id;
@@ -28,7 +36,6 @@ public class PacienteDTO {
 		this.email = email;
 		this.direccion = direccion;
 		this.fechaRegistro = fechaRegistro;
-		
 
 	}
 

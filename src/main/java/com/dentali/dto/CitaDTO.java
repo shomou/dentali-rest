@@ -2,26 +2,36 @@ package com.dentali.dto;
 
 import java.time.LocalDateTime;
 
-import com.dentali.Enum.EstadoCita;
+import com.dentali.enums.EstadoCita;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CitaDTO {
 
 	private Long id;
-	private Long id_paciente;
-	private Long id_odontologo;
+	
+	@JsonProperty("paciente_id")
+	private Long idPaciente;
+	
+	@JsonProperty("doctor_id")
+	private Long idOdontologo;
+	
 	private String motivo;
 	private EstadoCita estado;
 	private LocalDateTime fecha;
 
 	// Constructor
-	public CitaDTO(Long id, Long id_paciente, Long id_odontologo, String motivo, EstadoCita estado,
+	public CitaDTO(Long id, Long idPaciente, Long idOdontologo, String motivo, EstadoCita estado,
 			LocalDateTime fecha) {
 		this.id = id;
-		this.id_paciente = id_paciente;
-		this.id_odontologo = id_odontologo;
+		this.idPaciente = idPaciente;
+		this.idOdontologo = idOdontologo;
 		this.motivo = motivo;
 		this.estado = estado;
 		this.fecha = fecha;
+	}
+
+	// Constructor por defecto necesario para deserialización
+	public CitaDTO() {
 	}
 
 	public Long getId() {
@@ -32,20 +42,20 @@ public class CitaDTO {
 		this.id = id;
 	}
 
-	public Long getId_paciente() {
-		return id_paciente;
+	public Long getIdPaciente() {
+		return idPaciente;
 	}
 
-	public void setId_paciente(Long id_paciente) {
-		this.id_paciente = id_paciente;
+	public void setIdPaciente(Long idPaciente) {
+		this.idPaciente = idPaciente;
 	}
 
-	public Long getId_odontologo() {
-		return id_odontologo;
+	public Long getIdOdontologo() {
+		return idOdontologo;
 	}
 
-	public void setId_odontologo(Long id_odontologo) {
-		this.id_odontologo = id_odontologo;
+	public void setIdOdontologo(Long idOdontologo) {
+		this.idOdontologo = idOdontologo;
 	}
 
 	public String getMotivo() {

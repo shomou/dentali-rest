@@ -20,6 +20,7 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.FetchType;
 
 
 
@@ -42,7 +43,7 @@ public class User {
     private String password;
 
     @JsonIgnoreProperties({"users","handler", "hibernateLazyInitializer"})
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "users_roles",
         joinColumns = @JoinColumn(name="user_id"),

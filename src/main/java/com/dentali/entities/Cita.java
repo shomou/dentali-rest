@@ -2,7 +2,7 @@ package com.dentali.entities;
 
 import java.time.LocalDateTime;
 
-import com.dentali.Enum.EstadoCita;
+import com.dentali.enums.EstadoCita;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,7 +15,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-
 
 @Entity
 @Table(name = "citas")
@@ -44,17 +43,17 @@ public class Cita {
 
 	// Constructor
 	public Cita() {
-		
+
 	}
-	
+
 	public Cita(Long id, Doctor doctor, Paciente paciente, EstadoCita estado, String motivo, LocalDateTime fecha) {
-		
-		this.paciente= paciente; 
+
+		this.paciente = paciente;
 		this.doctor = doctor;
 		this.estado = estado;
-		this.motivo = motivo;		
+		this.motivo = motivo;
 		this.fecha = fecha;
-        this.fechaCreacion = LocalDateTime.now();
+		this.fechaCreacion = LocalDateTime.now();
 	}
 
 	// Getters y Setters
