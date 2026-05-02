@@ -1,5 +1,6 @@
 package com.dentali.services.impl;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -83,13 +84,15 @@ public class UserServiceImpl implements UserService {
         Role userRole = roleRepository.findByName("ROLE_USER")
                 .orElseThrow(
                         () -> new RuntimeException("Error: El rol ROLE_USER no se encuentra en la base de datos."));
-        roles.add(userRole);
 
         if (dto.getRole() != null && dto.getRole().equalsIgnoreCase("ROLE_ADMIN")) {
             roleRepository.findByName("ROLE_ADMIN").ifPresent(roles::add);
-        }
-        newUser.setRoles(roles);
 
+        } else {
+            roles.add(userRole);
+        }
+
+        newUser.setRoles(roles);
         // 2. Guardar la entidad User
         repository.save(newUser);
 
@@ -103,6 +106,7 @@ public class UserServiceImpl implements UserService {
         doctorParaGuardar.setEspecialidad(dto.getEspecialidad());
         doctorParaGuardar.setTelefono(dto.getTelefono());
         doctorParaGuardar.setEmail(dto.getEmail());
+        doctorParaGuardar.setFechaRegistro(LocalDateTime.now());
 
         // 4. Guardar el doctor a través de su servicio
         DoctorDTO nuevoDoctorSaved = doctorService.guardar(doctorParaGuardar);

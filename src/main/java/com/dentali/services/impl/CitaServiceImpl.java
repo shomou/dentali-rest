@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dentali.enums.EstadoCita;
-import com.dentali.dto.CitaDTO;
+import com.dentali.dto.Cita.CitaDTO;
 import com.dentali.entities.Cita;
 import com.dentali.mapper.CitaMapper;
 import com.dentali.repositories.CitaRepository;
@@ -67,11 +67,11 @@ public class CitaServiceImpl implements CitaService {
 
 		if (citaOptional.isPresent()) {
 			Cita citaDB = citaOptional.orElseThrow();
-			
+
 			if (citaDTO.getIdOdontologo() != null) {
 				citaDB.setDoctor(repositoryD.findById(citaDTO.getIdOdontologo()).orElse(null));
 			}
-			
+
 			citaDB.setMotivo(citaDTO.getMotivo());
 
 			// Guardar la cita con la cancelación

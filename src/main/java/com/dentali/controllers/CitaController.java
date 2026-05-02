@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dentali.dto.CitaDTO;
+import com.dentali.dto.Cita.CitaDTO;
 import com.dentali.errors.exceptions.CitaNotFoundException;
 import com.dentali.services.CitaService;
 

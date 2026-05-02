@@ -1,5 +1,6 @@
 package com.dentali.services.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,66 +18,66 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class PacienteServiceImpl implements PacienteService{
-    
+public class PacienteServiceImpl implements PacienteService {
+
 	@Autowired
 	private PacienteRepository pacienteRepository;
 
 	@Autowired
 	private PacienteMapper pacienteMapper;
-	
-	@Override
-	@Transactional( readOnly = true )
-    public List<PacienteDTO> obtenerTodos() {
-        return pacienteRepository.findAll().stream()
-				.map(pacienteMapper::toDTO)
-				.toList();
-	}	
 
 	@Override
-	@Transactional( readOnly = true )
-    public Optional<PacienteDTO> obtenerPorId(Long id) {
-        return pacienteRepository.findById(id).stream()
+	@Transactional(readOnly = true)
+	public List<PacienteDTO> obtenerTodos() {
+		return pacienteRepository.findAll().stream()
+				.map(pacienteMapper::toDTO)
+				.toList();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Optional<PacienteDTO> obtenerPorId(Long id) {
+		return pacienteRepository.findById(id).stream()
 				.map(pacienteMapper::toDTO)
 				.findFirst();
-    }
+	}
 
 	@Override
-	@Transactional( readOnly = true )
-    public List<PacienteDTO> buscarPorNombre(String nombre) {
-        return pacienteRepository.findByNombreContainingIgnoreCase(nombre).stream()
+	@Transactional(readOnly = true)
+	public List<PacienteDTO> buscarPorNombre(String nombre) {
+		return pacienteRepository.findByNombreContainingIgnoreCase(nombre).stream()
 				.map(pacienteMapper::toDTO)
 				.toList();
-    }
+	}
 
 	@Override
 	@Transactional
-    public PacienteDTO guardar(PacienteDTO pacienteDTO) {
+	public PacienteDTO guardar(PacienteDTO pacienteDTO) {
 		Paciente paciente = pacienteMapper.toEntity(pacienteDTO);
-		
-		Paciente pacienteDB = pacienteRepository.save(paciente); 
+		paciente.setFechaRegistro(LocalDateTime.now());
+		Paciente pacienteDB = pacienteRepository.save(paciente);
 		return pacienteMapper.toDTO(pacienteDB);
-    }
+	}
 
 	@Override
 	@Transactional
-    public Optional<PacienteDTO> eliminar(Long id) {
-        Optional<Paciente> pacienteOptional =  pacienteRepository.findById(id);
-        
-        pacienteOptional.ifPresent(pacienteDB ->{
-        	pacienteRepository.delete(pacienteDB);
-        });
-        
-        return pacienteOptional.stream()
+	public Optional<PacienteDTO> eliminar(Long id) {
+		Optional<Paciente> pacienteOptional = pacienteRepository.findById(id);
+
+		pacienteOptional.ifPresent(pacienteDB -> {
+			pacienteRepository.delete(pacienteDB);
+		});
+
+		return pacienteOptional.stream()
 				.map(pacienteMapper::toDTO)
 				.findFirst();
-    }
+	}
 
 	@Override
 	@Transactional
 	public Optional<PacienteDTO> update(Long id, PacienteDTO paciente) {
 		Optional<Paciente> pacienteOptional = pacienteRepository.findById(id);
-		
+
 		if (pacienteOptional.isPresent()) {
 			Paciente pacienteDB = pacienteOptional.orElseThrow();
 			pacienteDB.setApellido(paciente.getApellido());
@@ -88,14 +89,11 @@ public class PacienteServiceImpl implements PacienteService{
 
 			// Guardar el paciente actualizado
 			Paciente pacienteActualizado = pacienteRepository.save(pacienteDB);
-			
+
 			return Optional.of(pacienteMapper.toDTO(pacienteActualizado));
 		}
-		
+
 		return Optional.empty();
 	}
 
-	
-	
-	
 }

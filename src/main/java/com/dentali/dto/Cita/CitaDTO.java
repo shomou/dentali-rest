@@ -1,4 +1,4 @@
-package com.dentali.dto;
+package com.dentali.dto.Cita;
 
 import java.time.LocalDateTime;
 
@@ -8,13 +8,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class CitaDTO {
 
 	private Long id;
-	
+
 	@JsonProperty("paciente_id")
 	private Long idPaciente;
-	
+
 	@JsonProperty("doctor_id")
 	private Long idOdontologo;
-	
+
 	private String motivo;
 	private EstadoCita estado;
 	private LocalDateTime fecha;
