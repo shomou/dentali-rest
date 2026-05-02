@@ -1,4 +1,4 @@
-package com.dentali.dto;
+package com.dentali.dto.Pago;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

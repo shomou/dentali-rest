@@ -1,4 +1,4 @@
-package com.dentali.dto;
+package com.dentali.dto.Auth;
 
 public class UserDto {
 
@@ -6,9 +6,9 @@ public class UserDto {
     private String password;
     private String Role;
 
-
     // Constructor
-    public UserDto(){}
+    public UserDto() {
+    }
 
     // Getters & Setters
     public String getUsername() {

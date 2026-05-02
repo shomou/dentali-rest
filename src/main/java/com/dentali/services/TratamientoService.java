@@ -3,8 +3,7 @@ package com.dentali.services;
 import java.util.List;
 import java.util.Optional;
 
-//import com.dentali.entities.Tratamiento;
-import com.dentali.dto.TratamientoDTO;
+import com.dentali.dto.Tratamiento.TratamientoDTO;
 
 public interface TratamientoService {
 

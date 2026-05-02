@@ -2,7 +2,7 @@ package com.dentali.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.dentali.dto.TratamientoDTO;
+import com.dentali.dto.Tratamiento.TratamientoDTO;
 import com.dentali.entities.Tratamiento;
 import com.dentali.repositories.CitaRepository;
 import com.dentali.repositories.DoctorRepository;
@@ -38,16 +38,19 @@ public class TratamientoMapper {
     public Tratamiento toEntity(TratamientoDTO tratamientoDTO) {
         Tratamiento tratamiento = new Tratamiento();
         tratamiento.setId(tratamientoDTO.getId());
-        
-        tratamiento.setPaciente(tratamientoDTO.getIdPaciente() != null ? 
-            repositoryP.findById(tratamientoDTO.getIdPaciente()).orElse(null) : null);
-        
-        tratamiento.setDoctor(tratamientoDTO.getIdDoctor() != null ? 
-            repositoryD.findById(tratamientoDTO.getIdDoctor()).orElse(null) : null);
-        
-        tratamiento.setCita(tratamientoDTO.getIdCita() != null ? 
-            repositoryC.findById(tratamientoDTO.getIdCita()).orElse(null) : null);
-            
+
+        tratamiento.setPaciente(tratamientoDTO.getIdPaciente() != null
+                ? repositoryP.findById(tratamientoDTO.getIdPaciente()).orElse(null)
+                : null);
+
+        tratamiento.setDoctor(
+                tratamientoDTO.getIdDoctor() != null ? repositoryD.findById(tratamientoDTO.getIdDoctor()).orElse(null)
+                        : null);
+
+        tratamiento.setCita(
+                tratamientoDTO.getIdCita() != null ? repositoryC.findById(tratamientoDTO.getIdCita()).orElse(null)
+                        : null);
+
         tratamiento.setDescripcion(tratamientoDTO.getDescripcion());
         tratamiento.setCosto(tratamientoDTO.getCosto());
         tratamiento.setFecha(tratamientoDTO.getFecha());

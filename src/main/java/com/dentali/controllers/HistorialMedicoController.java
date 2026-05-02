@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dentali.dto.HistorialMedicoDTO;
+import com.dentali.dto.Historial.HistorialMedicoDTO;
 import com.dentali.services.HistorialMedicoServices;
 
 import lombok.RequiredArgsConstructor;

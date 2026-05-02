@@ -1,12 +1,14 @@
-package com.dentali.dto;
+package com.dentali.dto.Auth;
 
 public class LoginRequestDTO {
 
     private String username;
     private String password;
 
-    // Constructor sin argumentos (necesario para la deserialización de JSON por frameworks como Jackson)
-    public LoginRequestDTO() {}
+    // Constructor sin argumentos (necesario para la deserialización de JSON por
+    // frameworks como Jackson)
+    public LoginRequestDTO() {
+    }
 
     public LoginRequestDTO(String username, String password) {
         this.username = username;

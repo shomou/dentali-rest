@@ -3,7 +3,10 @@ package com.dentali.controllers;
 import java.util.List;
 import java.util.Map;
 
-import com.dentali.dto.UserResponseDTO;
+import com.dentali.dto.Auth.LoginRequestDTO;
+import com.dentali.dto.Auth.UserDoctorRegistrationDTO;
+import com.dentali.dto.Auth.UserResponseDTO;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dentali.dto.LoginRequestDTO;
-import com.dentali.dto.UserDoctorRegistrationDTO;
 import com.dentali.services.UserService;
 
 import jakarta.validation.Valid;

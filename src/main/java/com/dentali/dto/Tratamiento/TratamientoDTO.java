@@ -1,4 +1,4 @@
-package com.dentali.dto;
+package com.dentali.dto.Tratamiento;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -8,16 +8,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class TratamientoDTO {
 
 	private Long id;
-	
+
 	@JsonProperty("paciente_id")
 	private Long idPaciente;
-	
+
 	@JsonProperty("doctor_id")
 	private Long idDoctor;
-	
+
 	@JsonProperty("cita_id")
 	private Long idCita;
-	
+
 	private String descripcion;
 	private BigDecimal costo;
 	private LocalDateTime fecha = LocalDateTime.now();

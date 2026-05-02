@@ -8,50 +8,50 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dentali.dto.DoctorDTO;
+import com.dentali.dto.Doctor.DoctorDTO;
 import com.dentali.entities.Doctor;
 import com.dentali.mapper.DoctorMapper;
 import com.dentali.repositories.DoctorRepository;
 import com.dentali.services.DoctorService;
 
 @Service
-public class DoctorServiceImpl implements DoctorService{
+public class DoctorServiceImpl implements DoctorService {
 	@Autowired
 	private DoctorRepository doctorRepository;
 
 	@Autowired
 	private DoctorMapper doctorMapper;
-	
-	@Override
-	@Transactional( readOnly = true )
-    public List<DoctorDTO> obtenerTodos() {
-        return doctorRepository.findAll().stream()
-        		.map(doctorMapper::toDTO)
-        		.collect(Collectors.toList());
-    }
 
 	@Override
-	@Transactional( readOnly = true )
-    public Optional<DoctorDTO> obtenerPorId(Long id) {
-        return doctorRepository.findById(id)
-		.map(doctorMapper::toDTO);
-    }
+	@Transactional(readOnly = true)
+	public List<DoctorDTO> obtenerTodos() {
+		return doctorRepository.findAll().stream()
+				.map(doctorMapper::toDTO)
+				.collect(Collectors.toList());
+	}
 
 	@Override
-	@Transactional( readOnly = true )
-    public List<DoctorDTO> buscarPorEspecialidad(String especialidad) {
-        return doctorRepository.findByEspecialidadIgnoreCase(especialidad).stream()
-		.map(doctorMapper::toDTO)
-		.collect(Collectors.toList());
-    }
+	@Transactional(readOnly = true)
+	public Optional<DoctorDTO> obtenerPorId(Long id) {
+		return doctorRepository.findById(id)
+				.map(doctorMapper::toDTO);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<DoctorDTO> buscarPorEspecialidad(String especialidad) {
+		return doctorRepository.findByEspecialidadIgnoreCase(especialidad).stream()
+				.map(doctorMapper::toDTO)
+				.collect(Collectors.toList());
+	}
 
 	@Override
 	@Transactional
-    public DoctorDTO guardar(DoctorDTO doctorDTO) {
+	public DoctorDTO guardar(DoctorDTO doctorDTO) {
 		// Convertir un DTO a una entidad
 		Doctor doctor = doctorMapper.toEntity(doctorDTO);
-        return doctorMapper.toDTO(doctorRepository.save(doctor));
-    }
+		return doctorMapper.toDTO(doctorRepository.save(doctor));
+	}
 
 	@Override
 	public Optional<DoctorDTO> eliminar(Long id) {

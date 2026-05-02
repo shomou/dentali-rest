@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dentali.dto.TratamientoDTO;
+import com.dentali.dto.Tratamiento.TratamientoDTO;
 import com.dentali.entities.Tratamiento;
 import com.dentali.mapper.TratamientoMapper;
 import com.dentali.repositories.TratamientoRepository;

@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.dentali.dto.DoctorDTO;
-import com.dentali.dto.LoginRequestDTO;
-import com.dentali.dto.UserDoctorRegistrationDTO;
-import com.dentali.dto.UserResponseDTO;
+import com.dentali.dto.Auth.LoginRequestDTO;
+import com.dentali.dto.Auth.UserDoctorRegistrationDTO;
+import com.dentali.dto.Auth.UserResponseDTO;
+import com.dentali.dto.Doctor.DoctorDTO;
 import com.dentali.services.DoctorService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.authentication.AuthenticationManager;

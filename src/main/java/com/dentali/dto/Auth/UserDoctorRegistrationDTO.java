@@ -1,4 +1,4 @@
-package com.dentali.dto;
+package com.dentali.dto.Auth;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -27,7 +27,8 @@ public class UserDoctorRegistrationDTO {
     private String email;
 
     // Constructor
-    public UserDoctorRegistrationDTO() {}
+    public UserDoctorRegistrationDTO() {
+    }
 
     // Getters & Setters
     public String getUsername() {

@@ -3,8 +3,7 @@ package com.dentali.services;
 import java.util.List;
 import java.util.Optional;
 
-import com.dentali.dto.DoctorDTO;
-
+import com.dentali.dto.Doctor.DoctorDTO;
 
 public interface DoctorService {
 	public List<DoctorDTO> obtenerTodos();
@@ -16,6 +15,6 @@ public interface DoctorService {
 	public DoctorDTO guardar(DoctorDTO doctorDTO);
 
 	public Optional<DoctorDTO> eliminar(Long id);
-	
+
 	Optional<DoctorDTO> update(Long id, DoctorDTO doctorDTO);
 }

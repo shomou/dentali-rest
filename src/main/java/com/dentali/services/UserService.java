@@ -2,12 +2,9 @@ package com.dentali.services;
 
 import java.util.List;
 
-import com.dentali.dto.LoginRequestDTO;
-import com.dentali.dto.UserDoctorRegistrationDTO;
-import com.dentali.dto.UserResponseDTO;
-
-
-
+import com.dentali.dto.Auth.LoginRequestDTO;
+import com.dentali.dto.Auth.UserDoctorRegistrationDTO;
+import com.dentali.dto.Auth.UserResponseDTO;
 
 public interface UserService {
 

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dentali.dto.HistorialMedicoDTO;
+import com.dentali.dto.Historial.HistorialMedicoDTO;
 import com.dentali.entities.HistorialMedico;
 import com.dentali.mapper.HistorialMedicoMapper;
 import com.dentali.repositories.DoctorRepository;
@@ -15,10 +15,10 @@ import com.dentali.repositories.PacienteRepository;
 import com.dentali.services.HistorialMedicoServices;
 
 @Service
-public class HistorialMedicoServiceImpl implements HistorialMedicoServices{
+public class HistorialMedicoServiceImpl implements HistorialMedicoServices {
 
 	@Autowired
-    private DoctorRepository doctorRepository;
+	private DoctorRepository doctorRepository;
 
 	@Autowired
 	private PacienteRepository pacienteRepository;
@@ -29,9 +29,9 @@ public class HistorialMedicoServiceImpl implements HistorialMedicoServices{
 	@Autowired
 	private HistorialMedicoMapper historialMapper;
 
-    HistorialMedicoServiceImpl(DoctorRepository doctorRepository) {
-        this.doctorRepository = doctorRepository;
-    }
+	HistorialMedicoServiceImpl(DoctorRepository doctorRepository) {
+		this.doctorRepository = doctorRepository;
+	}
 
 	@Override
 	@Transactional(readOnly = true)
@@ -40,7 +40,7 @@ public class HistorialMedicoServiceImpl implements HistorialMedicoServices{
 				.map(historialMapper::toDTO)
 				.toList();
 	}
-	
+
 	@Override
 	@Transactional
 	public HistorialMedicoDTO create(HistorialMedicoDTO historialDTO) {
@@ -49,15 +49,14 @@ public class HistorialMedicoServiceImpl implements HistorialMedicoServices{
 		HistorialMedico nuevoHistorial = historialMapper.toEntity(historialDTO);
 
 		// Guardar la entidad en la base de datos
-		HistorialMedico historialGuardado =  historialRepository.save(nuevoHistorial);
-
+		HistorialMedico historialGuardado = historialRepository.save(nuevoHistorial);
 
 		return historialMapper.toDTO(historialGuardado);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public HistorialMedicoDTO buscarPacienteId (Long id){
+	public HistorialMedicoDTO buscarPacienteId(Long id) {
 		if (id == null) {
 			return null;
 		}
@@ -68,42 +67,41 @@ public class HistorialMedicoServiceImpl implements HistorialMedicoServices{
 
 	@Override
 	@Transactional
-	public HistorialMedicoDTO update( HistorialMedicoDTO historialDTO){
+	public HistorialMedicoDTO update(HistorialMedicoDTO historialDTO) {
 		if (historialDTO.getId() == null) {
 			throw new IllegalArgumentException("El ID del historial médico no puede ser nulo.");
 		}
 
 		// Convertir el DTO a una entidad
 		HistorialMedico historialEntity = historialRepository.findById(historialDTO.getId())
-										.orElseThrow(() -> new IllegalArgumentException("El historial médico con ID " 
-										+ historialDTO.getId() 
-										+ " no existe."));
-		
+				.orElseThrow(() -> new IllegalArgumentException("El historial médico con ID "
+						+ historialDTO.getId()
+						+ " no existe."));
 
-		if(historialEntity != null) {
+		if (historialEntity != null) {
 			// Actualizar los campos de la entidad
 			historialEntity.setId(historialDTO.getId());
-			
-			historialEntity.setPaciente(historialDTO.getIdPaciente() != null ? 
-				pacienteRepository.findById(historialDTO.getIdPaciente()).orElse(null) : null);
-			
-			historialEntity.setDoctor(historialDTO.getIdDoctor() != null ? 
-				doctorRepository.findById(historialDTO.getIdDoctor()).orElse(null) : null);
-				
+
+			historialEntity.setPaciente(historialDTO.getIdPaciente() != null
+					? pacienteRepository.findById(historialDTO.getIdPaciente()).orElse(null)
+					: null);
+
+			historialEntity.setDoctor(historialDTO.getIdDoctor() != null
+					? doctorRepository.findById(historialDTO.getIdDoctor()).orElse(null)
+					: null);
+
 			historialEntity.setAntecedentes(historialDTO.getAntecedentes());
 			historialEntity.setAlergias(historialDTO.getAlergias());
 			historialEntity.setMedicamentosActuales(historialDTO.getMedicamentosActuales());
 			historialEntity.setEnfermedadesCronicas(historialDTO.getEnfermedadesCronicas());
-			
 
 			// Guardar la entidad actualizada en la base de datos
 			HistorialMedico historialActualizado = historialRepository.save(historialEntity);
 
 			return historialMapper.toDTO(historialActualizado);
 
-		}		
+		}
 		return historialMapper.toDTO(historialEntity);
 	}
-	
-	
+
 }

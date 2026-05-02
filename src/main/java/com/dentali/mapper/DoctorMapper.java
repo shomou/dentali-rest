@@ -2,7 +2,7 @@ package com.dentali.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.dentali.dto.DoctorDTO;
+import com.dentali.dto.Doctor.DoctorDTO;
 import com.dentali.entities.Doctor;
 
 @Component

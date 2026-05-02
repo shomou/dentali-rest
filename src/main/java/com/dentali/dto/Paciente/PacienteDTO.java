@@ -1,4 +1,4 @@
-package com.dentali.dto;
+package com.dentali.dto.Paciente;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
