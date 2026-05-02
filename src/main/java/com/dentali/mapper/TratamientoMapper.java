@@ -3,6 +3,7 @@ package com.dentali.mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.dentali.dto.Tratamiento.TratamientoDTO;
+import com.dentali.dto.Tratamiento.TratamientoResponseDTO;
 import com.dentali.entities.Tratamiento;
 import com.dentali.repositories.CitaRepository;
 import com.dentali.repositories.DoctorRepository;
@@ -21,6 +22,12 @@ public class TratamientoMapper {
 
     @Autowired
     private CitaRepository repositoryC;
+
+    @Autowired
+    private PacienteMapper pacienteMapper;
+
+    @Autowired
+    private DoctorMapper doctorMapper;
 
     public TratamientoDTO toDTO(Tratamiento tratamiento) {
         TratamientoDTO tratamientoDTO = new TratamientoDTO();
@@ -56,6 +63,18 @@ public class TratamientoMapper {
         tratamiento.setFecha(tratamientoDTO.getFecha());
 
         return tratamiento;
+    }
+
+    public TratamientoResponseDTO toResponseDTO(Tratamiento tratamiento) {
+        if (tratamiento == null)
+            return null;
+        return new TratamientoResponseDTO(
+                tratamiento.getId(),
+                pacienteMapper.toResponseDTO(tratamiento.getPaciente()),
+                doctorMapper.toResponseDTO(tratamiento.getDoctor()),
+                tratamiento.getDescripcion(),
+                tratamiento.getCosto(),
+                tratamiento.getFecha());
     }
 
 }

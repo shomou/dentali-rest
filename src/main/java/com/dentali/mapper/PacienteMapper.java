@@ -3,6 +3,7 @@ package com.dentali.mapper;
 import org.springframework.stereotype.Component;
 
 import com.dentali.dto.Paciente.PacienteDTO;
+import com.dentali.dto.Paciente.PacienteResponseDTO;
 import com.dentali.entities.Paciente;
 
 @Component
@@ -33,6 +34,20 @@ public class PacienteMapper {
         paciente.setDireccion(pacienteDTO.getDireccion());
         paciente.setFechaRegistro(pacienteDTO.getFechaRegistro());
         return paciente;
+    }
+
+    public PacienteResponseDTO toResponseDTO(Paciente paciente) {
+        if (paciente == null)
+            return null;
+        return new PacienteResponseDTO(
+                paciente.getId(),
+                paciente.getNombre(),
+                paciente.getApellido(),
+                paciente.getFechaNacimiento(),
+                paciente.getTelefono(),
+                paciente.getEmail(),
+                paciente.getDireccion(),
+                paciente.getFechaRegistro());
     }
 
 }

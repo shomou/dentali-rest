@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.dentali.dto.Historial.HistorialMedicoDTO;
+import com.dentali.dto.Historial.HistorialMedicoResponseDTO;
 import com.dentali.entities.HistorialMedico;
 import com.dentali.repositories.DoctorRepository;
 import com.dentali.repositories.PacienteRepository;
@@ -16,6 +17,12 @@ public class HistorialMedicoMapper {
 
     @Autowired
     private DoctorRepository repositoryD;
+
+    @Autowired
+    private PacienteMapper pacienteMapper;
+
+    @Autowired
+    private DoctorMapper doctorMapper;
 
     public HistorialMedicoDTO toDTO(HistorialMedico historialMedico) {
         return new HistorialMedicoDTO(historialMedico.getId(),
@@ -37,5 +44,19 @@ public class HistorialMedicoMapper {
                 dto.getAlergias(),
                 dto.getMedicamentosActuales(),
                 dto.getEnfermedadesCronicas());
+    }
+
+    public HistorialMedicoResponseDTO toResponseDTO(HistorialMedico historialMedico) {
+        if (historialMedico == null)
+            return null;
+        return new HistorialMedicoResponseDTO(
+                historialMedico.getId(),
+                pacienteMapper.toResponseDTO(historialMedico.getPaciente()),
+                doctorMapper.toResponseDTO(historialMedico.getDoctor()),
+                historialMedico.getAntecedentes(),
+                historialMedico.getAlergias(),
+                historialMedico.getMedicamentosActuales(),
+                historialMedico.getEnfermedadesCronicas(),
+                historialMedico.getFechaActualizacion());
     }
 }

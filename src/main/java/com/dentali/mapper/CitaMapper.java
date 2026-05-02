@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.dentali.dto.Cita.CitaDTO;
+import com.dentali.dto.Cita.CitaResponseDTO;
 import com.dentali.entities.Cita;
 import com.dentali.entities.Doctor;
 import com.dentali.entities.Paciente;
@@ -18,6 +19,12 @@ public class CitaMapper {
 
 	@Autowired
 	DoctorRepository repositoryD;
+
+	@Autowired
+	PacienteMapper pacienteMapper;
+
+	@Autowired
+	DoctorMapper doctorMapper;
 
 	public CitaDTO toDTO(Cita cita) {
 		return new CitaDTO(cita.getId(),
@@ -35,6 +42,19 @@ public class CitaMapper {
 		Doctor doctor = dto.getIdOdontologo() != null ? repositoryD.findById(dto.getIdOdontologo()).orElse(null) : null;
 
 		return new Cita(dto.getId(), doctor, paciente, dto.getEstado(), dto.getMotivo(), dto.getFecha());
+	}
+
+	public CitaResponseDTO toResponseDTO(Cita cita) {
+		if (cita == null)
+			return null;
+		return new CitaResponseDTO(
+				cita.getId(),
+				pacienteMapper.toResponseDTO(cita.getPaciente()),
+				doctorMapper.toResponseDTO(cita.getDoctor()),
+				cita.getMotivo(),
+				cita.getEstado(),
+				cita.getFecha(),
+				cita.getFechaCreacion());
 	}
 
 }
