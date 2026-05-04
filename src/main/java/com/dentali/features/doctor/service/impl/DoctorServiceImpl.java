@@ -1,76 +1,143 @@
 package com.dentali.features.doctor.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dentali.features.auth.domain.Role;
+import com.dentali.features.auth.domain.User;
+import com.dentali.features.auth.repository.RoleRepository;
+import com.dentali.features.auth.repository.UserRepository;
 import com.dentali.features.doctor.domain.Doctor;
 import com.dentali.features.doctor.dto.DoctorDTO;
+import com.dentali.features.doctor.dto.DoctorResponseDTO;
 import com.dentali.features.doctor.mapper.DoctorMapper;
 import com.dentali.features.doctor.repository.DoctorRepository;
 import com.dentali.features.doctor.service.DoctorService;
 
 @Service
 public class DoctorServiceImpl implements DoctorService {
+
 	@Autowired
 	private DoctorRepository doctorRepository;
 
 	@Autowired
 	private DoctorMapper doctorMapper;
 
+	@Autowired
+	private UserRepository userRepository;
+
+	@Autowired
+	private RoleRepository roleRepository;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	@Override
 	@Transactional(readOnly = true)
-	public List<DoctorDTO> obtenerTodos() {
+	public List<DoctorResponseDTO> obtenerTodos() {
 		return doctorRepository.findAll().stream()
-				.map(doctorMapper::toDTO)
+				.map(doctor -> {
+					List<String> roles = obtenerRolesDeUsuario(doctor.getEmail());
+					return doctorMapper.toResponseDTO(doctor, roles);
+				})
 				.collect(Collectors.toList());
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public Optional<DoctorDTO> obtenerPorId(Long id) {
+	public Optional<DoctorResponseDTO> obtenerPorId(Long id) {
 		return doctorRepository.findById(id)
-				.map(doctorMapper::toDTO);
+				.map(doctor -> {
+					List<String> roles = obtenerRolesDeUsuario(doctor.getEmail());
+					return doctorMapper.toResponseDTO(doctor, roles);
+				});
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<DoctorDTO> buscarPorEspecialidad(String especialidad) {
+	public List<DoctorResponseDTO> buscarPorEspecialidad(String especialidad) {
 		return doctorRepository.findByEspecialidadIgnoreCase(especialidad).stream()
-				.map(doctorMapper::toDTO)
+				.map(doctor -> {
+					List<String> roles = obtenerRolesDeUsuario(doctor.getEmail());
+					return doctorMapper.toResponseDTO(doctor, roles);
+				})
 				.collect(Collectors.toList());
 	}
 
 	@Override
 	@Transactional
-	public DoctorDTO guardar(DoctorDTO doctorDTO) {
-		// Convertir un DTO a una entidad
+	public DoctorResponseDTO guardar(DoctorDTO doctorDTO) {
+
+		// 1. Asegurar que el usuario exista o crearlo
+		if (!userRepository.existsByUsername(doctorDTO.getEmail())) {
+			User nuevoUsuario = new User();
+			nuevoUsuario.setUsername(doctorDTO.getEmail());
+			nuevoUsuario.setPassword(passwordEncoder.encode(doctorDTO.getPassword()));
+			
+			// Asignar Roles
+			List<Role> roles = new ArrayList<>();
+			// Buscamos el rol que viene en el DTO, si no viene usamos ROLE_USER por defecto
+			String nombreRol = (doctorDTO.getRole() != null) ? doctorDTO.getRole() : "ROLE_USER";
+			roleRepository.findByName(nombreRol).ifPresent(roles::add);
+			
+			nuevoUsuario.setRoles(roles);
+			userRepository.save(nuevoUsuario);
+		}
+
+		// 2. Guardar el Doctor
 		Doctor doctor = doctorMapper.toEntity(doctorDTO);
-		return doctorMapper.toDTO(doctorRepository.save(doctor));
+		Doctor savedDoctor = doctorRepository.save(doctor);
+		
+		List<String> rolesNombres = obtenerRolesDeUsuario(savedDoctor.getEmail());
+		return doctorMapper.toResponseDTO(savedDoctor, rolesNombres);
 	}
 
 	@Override
-	public Optional<DoctorDTO> eliminar(Long id) {
+	@Transactional
+	public Optional<DoctorResponseDTO> eliminar(Long id) {
 		return doctorRepository.findById(id).map(doctor -> {
+			List<String> roles = obtenerRolesDeUsuario(doctor.getEmail());
 			doctorRepository.delete(doctor);
-			return doctorMapper.toDTO(doctor);
+			return doctorMapper.toResponseDTO(doctor, roles);
 		});
 	}
 
 	@Override
-	public Optional<DoctorDTO> update(Long id, DoctorDTO doctorDTO) {
+	@Transactional
+	public Optional<DoctorResponseDTO> update(Long id, DoctorDTO doctorDTO) {
 		return doctorRepository.findById(id).map(existingDoctor -> {
-			// Actualizar los campos del doctor existente con los datos del DTO
 			existingDoctor.setNombre(doctorDTO.getNombre());
+			existingDoctor.setApellido(doctorDTO.getApellido());
 			existingDoctor.setEspecialidad(doctorDTO.getEspecialidad());
 			existingDoctor.setTelefono(doctorDTO.getTelefono());
-			// Guardar los cambios
+			existingDoctor.setEmail(doctorDTO.getEmail());
+
 			Doctor updatedDoctor = doctorRepository.save(existingDoctor);
-			return doctorMapper.toDTO(updatedDoctor);
+			List<String> roles = obtenerRolesDeUsuario(updatedDoctor.getEmail());
+			return doctorMapper.toResponseDTO(updatedDoctor, roles);
 		});
+	}
+
+	/**
+	 * Método privado para realizar el vínculo lógico entre Doctor y User
+	 * basado en que el Email del Doctor coincide con el Username del Usuario.
+	 */
+	private List<String> obtenerRolesDeUsuario(String email) {
+		if (email == null)
+			return Collections.emptyList();
+
+		return userRepository.findByUsername(email)
+				.map(user -> user.getRoles().stream()
+						.map(Role::getName)
+						.collect(Collectors.toList()))
+				.orElse(Collections.emptyList());
 	}
 }

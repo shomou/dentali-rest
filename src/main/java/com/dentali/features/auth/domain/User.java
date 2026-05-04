@@ -1,7 +1,5 @@
 package com.dentali.features.auth.domain;
 
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,8 +20,6 @@ import jakarta.persistence.Transient;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.FetchType;
 
-
-
 @Entity
 @Table(name="users")
 public class User {
@@ -32,13 +28,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //@ExistsByUsername
     @Column(unique=true)
-    //@NotBlank
-    //@Size(min=4, max=14)
     private String username;
 
-    //@NotBlank
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)    
     private String password;
 
@@ -66,7 +58,6 @@ public class User {
     @Transient
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)    
     private boolean admin;
-
 
     public Long getId() {
         return id;
@@ -146,8 +137,4 @@ public class User {
             return false;
         return true;
     }
-
-
-        
-
 }

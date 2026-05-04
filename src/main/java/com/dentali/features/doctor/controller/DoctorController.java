@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dentali.features.doctor.dto.DoctorDTO;
+import com.dentali.features.doctor.dto.DoctorResponseDTO;
 import com.dentali.features.doctor.service.DoctorService;
 
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ public class DoctorController {
 
 	// Listar Doctores
 	@GetMapping("/list")
-	public List<DoctorDTO> listarDoctores() {
+	public List<DoctorResponseDTO> listarDoctores() {
 		return doctorService.obtenerTodos();
 	}
 
@@ -40,7 +41,7 @@ public class DoctorController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> view(@PathVariable Long id) {
-		Optional<DoctorDTO> doctorOptional = doctorService.obtenerPorId(id);
+		Optional<DoctorResponseDTO> doctorOptional = doctorService.obtenerPorId(id);
 
 		if (doctorOptional.isPresent()) {
 			return ResponseEntity.ok(doctorOptional.orElseThrow());
@@ -50,7 +51,7 @@ public class DoctorController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@RequestBody DoctorDTO doctorDTO, @PathVariable Long id) {
-		Optional<DoctorDTO> doctorOptional = doctorService.update(id, doctorDTO);
+		Optional<DoctorResponseDTO> doctorOptional = doctorService.update(id, doctorDTO);
 
 		if (doctorOptional.isPresent()) {
 			return ResponseEntity.ok(doctorOptional.orElseThrow());
@@ -60,7 +61,7 @@ public class DoctorController {
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id) {
-		Optional<DoctorDTO> doctorOptional = doctorService.eliminar(id);
+		Optional<DoctorResponseDTO> doctorOptional = doctorService.eliminar(id);
 
 		if (doctorOptional.isPresent()) {
 			return ResponseEntity.ok(doctorOptional.orElseThrow());

@@ -3,6 +3,8 @@ package com.dentali.features.paciente.dto;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
@@ -13,12 +15,14 @@ public class PacienteDTO {
 	private String nombre;
 	@NotBlank(message = "El apellido es obligatorio")
 	private String apellido;
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate fechaNacimiento;
 	private String telefono;
 	@Email(message = "Formato de email inválido")
 	@NotBlank(message = "El email es obligatorio")
 	private String email;
 	private String direccion;
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDateTime fechaRegistro;
 
 	// Constructor
