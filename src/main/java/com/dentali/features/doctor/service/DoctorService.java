@@ -4,17 +4,18 @@ import java.util.List;
 import java.util.Optional;
 
 import com.dentali.features.doctor.dto.DoctorDTO;
+import com.dentali.features.doctor.dto.DoctorResponseDTO;
 
 public interface DoctorService {
-	public List<DoctorDTO> obtenerTodos();
+	public List<DoctorResponseDTO> obtenerTodos();
 
-	public Optional<DoctorDTO> obtenerPorId(Long id);
+	public Optional<DoctorResponseDTO> obtenerPorId(Long id);
 
-	public List<DoctorDTO> buscarPorEspecialidad(String especialidad);
+	public List<DoctorResponseDTO> buscarPorEspecialidad(String especialidad);
 
-	public DoctorDTO guardar(DoctorDTO doctorDTO);
+	public DoctorResponseDTO guardar(DoctorDTO doctorDTO);
 
-	public Optional<DoctorDTO> eliminar(Long id);
+	public Optional<DoctorResponseDTO> eliminar(Long id);
 
-	Optional<DoctorDTO> update(Long id, DoctorDTO doctorDTO);
+	Optional<DoctorResponseDTO> update(Long id, DoctorDTO doctorDTO);
 }

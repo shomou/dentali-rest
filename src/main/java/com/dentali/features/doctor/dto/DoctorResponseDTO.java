@@ -1,6 +1,9 @@
 package com.dentali.features.doctor.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class DoctorResponseDTO {
 
@@ -10,13 +13,17 @@ public class DoctorResponseDTO {
 	private String especialidad;
 	private String telefono;
 	private String email;
+
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDateTime fechaRegistro;
+
+	private List<String> roles;
 
 	public DoctorResponseDTO() {
 	}
 
 	public DoctorResponseDTO(Long id, String nombre, String apellido, String especialidad, String telefono,
-			String email, LocalDateTime fechaRegistro) {
+			String email, LocalDateTime fechaRegistro, List<String> roles) {
 		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -24,6 +31,7 @@ public class DoctorResponseDTO {
 		this.telefono = telefono;
 		this.email = email;
 		this.fechaRegistro = fechaRegistro;
+		this.roles = roles;
 	}
 
 	public Long getId() {
@@ -80,5 +88,13 @@ public class DoctorResponseDTO {
 
 	public void setFechaRegistro(LocalDateTime fechaRegistro) {
 		this.fechaRegistro = fechaRegistro;
+	}
+
+	public List<String> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
 	}
 }

@@ -10,10 +10,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 
-
 @Entity
 @Table(name = "doctores")
-@AllArgsConstructor
 public class Doctor {
 
 	@Id
@@ -32,15 +30,24 @@ public class Doctor {
 	// Constructores
 	public Doctor() {
 	}
-	
+
 	public Doctor(Long id, String nombre, String apellido, String especialidad, String telefono, String email) {
-	
-		this.nombre =  nombre;
+		this.id = id;
+		this.nombre = nombre;
 		this.apellido = apellido;
 		this.especialidad = especialidad;
 		this.telefono = telefono;
 		this.email = email;
+	}
 
+	public Doctor(Long id, String nombre, String apellido, String especialidad, String telefono, String email, LocalDateTime fechaRegistro) {
+		this.id = id;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.especialidad = especialidad;
+		this.telefono = telefono;
+		this.email = email;
+		this.fechaRegistro = fechaRegistro;
 	}
 
 	// Getters y Setters

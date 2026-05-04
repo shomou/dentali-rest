@@ -3,6 +3,7 @@ package com.dentali.features.tratamiento.dto;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class TratamientoDTO {
@@ -20,6 +21,7 @@ public class TratamientoDTO {
 
 	private String descripcion;
 	private BigDecimal costo;
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDateTime fecha = LocalDateTime.now();
 
 	// Constructor

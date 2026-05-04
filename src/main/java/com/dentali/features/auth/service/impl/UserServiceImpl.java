@@ -22,6 +22,7 @@ import com.dentali.features.auth.repository.UserRepository;
 import com.dentali.features.auth.service.JWTService;
 import com.dentali.features.auth.service.UserService;
 import com.dentali.features.doctor.dto.DoctorDTO;
+import com.dentali.features.doctor.dto.DoctorResponseDTO;
 import com.dentali.features.doctor.service.DoctorService;
 
 import lombok.RequiredArgsConstructor;
@@ -77,7 +78,7 @@ public class UserServiceImpl implements UserService {
 
         // 1. Mapear el DTO a la entidad User
         User newUser = new User();
-        newUser.setUsername(dto.getUsername());
+        newUser.setUsername(dto.getUsername()); // El username es el email que se comparte
         newUser.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         // Asignar roles de forma segura
@@ -94,23 +95,21 @@ public class UserServiceImpl implements UserService {
         }
 
         newUser.setRoles(roles);
-        // 2. Guardar la entidad User
-        repository.save(newUser);
+        // 2. Guardar la entidad User y capturar el objeto persistido
+        User savedUser = repository.save(newUser);
 
         // 3. Mapear el DTO a un DoctorDTO para el DoctorService
-        // Nota: Idealmente, DoctorService tendría un método que acepte una entidad
-        // Doctor.
-        // Como la interfaz actual requiere un DTO, hacemos el mapeo aquí.
         DoctorDTO doctorParaGuardar = new DoctorDTO();
         doctorParaGuardar.setNombre(dto.getNombre());
         doctorParaGuardar.setApellido(dto.getApellido());
         doctorParaGuardar.setEspecialidad(dto.getEspecialidad());
         doctorParaGuardar.setTelefono(dto.getTelefono());
         doctorParaGuardar.setEmail(dto.getEmail());
-        doctorParaGuardar.setFechaRegistro(LocalDateTime.now());
+        doctorParaGuardar.setFechaRegistro(java.time.LocalDate.now());
+        doctorParaGuardar.setUserId(savedUser.getId());
 
         // 4. Guardar el doctor a través de su servicio
-        DoctorDTO nuevoDoctorSaved = doctorService.guardar(doctorParaGuardar);
+        DoctorResponseDTO nuevoDoctorSaved = doctorService.guardar(doctorParaGuardar);
 
         // Comprobación robusta: verificar que el doctor se guardó y tiene un ID.
         if (nuevoDoctorSaved != null && nuevoDoctorSaved.getId() != null) {

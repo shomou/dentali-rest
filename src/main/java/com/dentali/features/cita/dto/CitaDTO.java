@@ -3,6 +3,7 @@ package com.dentali.features.cita.dto;
 import java.time.LocalDateTime;
 
 import com.dentali.core.enums.EstadoCita;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CitaDTO {
@@ -17,6 +18,7 @@ public class CitaDTO {
 
 	private String motivo;
 	private EstadoCita estado;
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDateTime fecha;
 
 	// Constructor
