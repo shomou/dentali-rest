@@ -1,6 +1,7 @@
 package com.dentali.features.doctor.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,12 +18,10 @@ public class DoctorDTO {
 	private String telefono;
 	private String email;
 
-	@NotBlank(message = "La contraseña no puede estar vacía")
-	@Size(min = 6, message = "Debe tener al menos 6 caracteres")
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
 
-	private String role; // Campo para el rol (ej: ROLE_DOCTOR, ROLE_ADMIN)
+	private List<String> roles; // Ahora es una lista, igual que en tu JSON
 
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -35,7 +34,7 @@ public class DoctorDTO {
 	}
 
 	public DoctorDTO(Long id, String nombre, String apellido, String especialidad, String telefono, String email,
-			LocalDate fechaRegistro, String password, String role) {
+			LocalDate fechaRegistro, String password, List<String> roles) {
 		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -44,7 +43,7 @@ public class DoctorDTO {
 		this.email = email;
 		this.fechaRegistro = fechaRegistro;
 		this.password = password;
-		this.role = role;
+		this.roles = roles;
 	}
 
 	// Getters & Setters
@@ -104,12 +103,12 @@ public class DoctorDTO {
 		this.password = password;
 	}
 
-	public String getRole() {
-		return role;
+	public List<String> getRoles() {
+		return roles;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
 	}
 
 	public LocalDate getFechaRegistro() {
