@@ -81,13 +81,18 @@ public class DoctorServiceImpl implements DoctorService {
 			User nuevoUsuario = new User();
 			nuevoUsuario.setUsername(doctorDTO.getEmail());
 			nuevoUsuario.setPassword(passwordEncoder.encode(doctorDTO.getPassword()));
-			
-			// Asignar Roles
+
+			// Asignar Roles desde la lista del DTO
 			List<Role> roles = new ArrayList<>();
-			// Buscamos el rol que viene en el DTO, si no viene usamos ROLE_USER por defecto
-			String nombreRol = (doctorDTO.getRole() != null) ? doctorDTO.getRole() : "ROLE_USER";
-			roleRepository.findByName(nombreRol).ifPresent(roles::add);
-			
+			if (doctorDTO.getRoles() != null && !doctorDTO.getRoles().isEmpty()) {
+				for (String nombreRol : doctorDTO.getRoles()) {
+					roleRepository.findByName(nombreRol).ifPresent(roles::add);
+				}
+			} else {
+				// Rol por defecto si la lista viene vacía
+				roleRepository.findByName("ROLE_USER").ifPresent(roles::add);
+			}
+
 			nuevoUsuario.setRoles(roles);
 			userRepository.save(nuevoUsuario);
 		}
@@ -95,7 +100,7 @@ public class DoctorServiceImpl implements DoctorService {
 		// 2. Guardar el Doctor
 		Doctor doctor = doctorMapper.toEntity(doctorDTO);
 		Doctor savedDoctor = doctorRepository.save(doctor);
-		
+
 		List<String> rolesNombres = obtenerRolesDeUsuario(savedDoctor.getEmail());
 		return doctorMapper.toResponseDTO(savedDoctor, rolesNombres);
 	}
@@ -113,13 +118,39 @@ public class DoctorServiceImpl implements DoctorService {
 	@Override
 	@Transactional
 	public Optional<DoctorResponseDTO> update(Long id, DoctorDTO doctorDTO) {
+		System.out.println("asi viene: " + doctorDTO);
 		return doctorRepository.findById(id).map(existingDoctor -> {
+			// Guardamos el email viejo por si cambió, para buscar al usuario
+			String oldEmail = existingDoctor.getEmail();
+
+			// 1. Actualizar datos del Doctor
 			existingDoctor.setNombre(doctorDTO.getNombre());
 			existingDoctor.setApellido(doctorDTO.getApellido());
 			existingDoctor.setEspecialidad(doctorDTO.getEspecialidad());
 			existingDoctor.setTelefono(doctorDTO.getTelefono());
 			existingDoctor.setEmail(doctorDTO.getEmail());
 
+			// 2. Actualizar el Usuario asociado
+			userRepository.findByUsername(oldEmail).ifPresent(user -> {
+				user.setUsername(doctorDTO.getEmail());
+
+				if (doctorDTO.getPassword() != null && !doctorDTO.getPassword().isBlank()) {
+					user.setPassword(passwordEncoder.encode(doctorDTO.getPassword()));
+				}
+
+				// Actualizar lista de Roles
+				if (doctorDTO.getRoles() != null && !doctorDTO.getRoles().isEmpty()) {
+					List<Role> newRoles = new ArrayList<>();
+					for (String nombreRol : doctorDTO.getRoles()) {
+						roleRepository.findByName(nombreRol).ifPresent(newRoles::add);
+					}
+					user.setRoles(newRoles);
+				}
+
+				userRepository.save(user);
+			});
+
+			// 3. Guardar cambios del Doctor
 			Doctor updatedDoctor = doctorRepository.save(existingDoctor);
 			List<String> roles = obtenerRolesDeUsuario(updatedDoctor.getEmail());
 			return doctorMapper.toResponseDTO(updatedDoctor, roles);
