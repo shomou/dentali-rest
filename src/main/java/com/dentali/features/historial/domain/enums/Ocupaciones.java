@@ -1,0 +1,45 @@
+package com.dentali.features.historial.domain.enums;
+
+public enum Ocupaciones {
+    // Tecnología
+    DESARROLLADOR_SOFTWARE,
+    INGENIERO_SISTEMAS,
+    ANALISTA_DATOS,
+    ESPECIALISTA_CIBERSEGURIDAD,
+    DISENADOR_UX_UI,
+    ADMINISTRADOR_REDES,
+    ARQUITECTO_NUBE,
+    MARKETING_DIGITAL,
+
+    // Salud
+    MEDICO_GENERAL,
+    ODONTOLOGO,
+    ENFERMERO,
+    PSICOLOGO,
+    FISIOTERAPEUTA,
+    NUTRICIONISTA,
+    FARMACEUTICO,
+    VETERINARIO,
+
+    // Administrativo y Legal
+    ADMINISTRADOR_EMPRESAS,
+    CONTADOR_PUBLICO,
+    ABOGADO,
+    ASISTENTE_ADMINISTRATIVO,
+    RECURSOS_HUMANOS,
+
+    // Educación, Ingeniería y Oficios
+    PROFESOR,
+    CONSULTOR,
+    ARQUITECTO,
+    INGENIERO_CIVIL,
+    CHEF,
+    ELECTRICISTA,
+    AGENTE_VENTAS,
+    PERIODISTA,
+
+    // Estados
+    ESTUDIANTE,
+    JUBILADO,
+    OTRO
+}
