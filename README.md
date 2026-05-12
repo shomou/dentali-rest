@@ -9,7 +9,11 @@
 - **Gestión de Pacientes**: Registro detallado y seguimiento.
 - **Gestión de Doctores (Odontólogos)**: Administración de especialidades y personal.
 - **Sistema de Citas**: Agendamiento y control de estados de citas.
-- **Historial Clínico**: Registro digital de antecedentes, alergias y evoluciones.
+- **Historial Clínico Avanzado**: 
+  - Control de **Signos Vitales** (Presión, IMC, Saturación, etc.).
+  - Mapas dinámicos de **Antecedentes Patológicos y Familiares**.
+  - Seguimiento de padecimientos y planes de tratamiento personalizados.
+  - Clasificación por **Género y Estado Civil** mediante tipos enriquecidos.
 - **Tratamientos y Pagos**: Control financiero y de procedimientos realizados.
 - **Seguridad Robusta**: Autenticación y autorización basada en **JWT (JSON Web Tokens)**.
 - **Arquitectura Modular**: Organizado por funcionalidades (**Package by Feature**) para facilitar la escalabilidad.
@@ -70,9 +74,20 @@ La API está documentada automáticamente con Swagger. Una vez que el proyecto e
 
 3. **Compilar y ejecutar**:
    ```bash
+   ```bash
    mvn clean install
    mvn spring-boot:run
    ```
+
+### 🐳 Ejecución con Docker (Recomendado)
+El proyecto incluye soporte para Docker Compose, lo que levanta la base de datos y la API automáticamente:
+
+1. Asegúrate de tener Docker instalado.
+2. Ejecuta el comando:
+   ```bash
+   docker-compose up --build
+   ```
+3. La API estará disponible en `http://localhost:8081`.
 
 ---
 
