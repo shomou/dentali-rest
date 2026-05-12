@@ -1,8 +1,12 @@
 package com.dentali.features.paciente.dto;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
+import com.dentali.features.historial.domain.enums.EstadoCivil;
+import com.dentali.features.historial.domain.enums.Genero;
+import com.dentali.features.historial.domain.enums.Nacionalidad;
+import com.dentali.features.historial.domain.enums.Ocupaciones;
+import com.dentali.features.historial.domain.enums.Religion;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.validation.constraints.Email;
@@ -10,46 +14,44 @@ import jakarta.validation.constraints.NotBlank;
 
 public class PacienteDTO {
 
-	private Long id;
 	@NotBlank(message = "El nombre es obligatorio")
 	private String nombre;
 	@NotBlank(message = "El apellido es obligatorio")
 	private String apellido;
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate fechaNacimiento;
+	private Genero genero;
+	private EstadoCivil estadoCivil;
+	private Ocupaciones ocupacion;
+	private Religion religion;
+	private Nacionalidad nacionalidad;
 	private String telefono;
 	@Email(message = "Formato de email inválido")
 	@NotBlank(message = "El email es obligatorio")
 	private String email;
-	private String direccion;
-	@JsonFormat(pattern = "dd/MM/yyyy")
-	private LocalDateTime fechaRegistro;
+	private String direccion;	
+	private Boolean estado;
 
 	// Constructor
 	public PacienteDTO() {
 
 	}
 
-	public PacienteDTO(Long id, String nombre, String apellido, LocalDate fechaNacimiento,
-			String telefono, String email, String direccion, LocalDateTime fechaRegistro) {
-		this.id = id;
+	public PacienteDTO(String nombre, String apellido, LocalDate fechaNacimiento,
+			Genero genero, EstadoCivil estadoCivil, Ocupaciones ocupacion, Religion religion, 
+			Nacionalidad nacionalidad, String telefono, String email, String direccion, Boolean estado) {
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.fechaNacimiento = fechaNacimiento;
+		this.genero = genero;
+		this.estadoCivil = estadoCivil;
+		this.ocupacion = ocupacion;
+		this.religion = religion;
+		this.nacionalidad = nacionalidad;
 		this.telefono = telefono;
 		this.email = email;
 		this.direccion = direccion;
-		this.fechaRegistro = fechaRegistro;
-
-	}
-
-	// Getters & Setters
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
+		this.estado = estado;
 	}
 
 	public String getNombre() {
@@ -76,6 +78,47 @@ public class PacienteDTO {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
+	public Genero getGenero(){
+		return genero;
+	
+	}
+
+	public void setGenero(Genero genero) {
+		this.genero = genero;
+	}
+
+	public EstadoCivil getEstadoCivil() {
+		return estadoCivil;
+	}
+
+	public void setEstadoCivil(EstadoCivil estadoCivil) {
+		this.estadoCivil = estadoCivil;
+	}
+
+	public Ocupaciones getOcupacion() {
+		return ocupacion;
+	}
+
+	public void setOcupacion(Ocupaciones ocupacion) {
+		this.ocupacion = ocupacion;
+	}
+
+	public Religion getReligion() {
+		return religion;
+	}
+
+	public void setReligion(Religion religion) {
+		this.religion = religion;
+	}
+
+	public Nacionalidad getNacionalidad() {
+		return nacionalidad;
+	}
+
+	public void setNacionalidad(Nacionalidad nacionalidad) {
+		this.nacionalidad = nacionalidad;
+	}
+
 	public String getTelefono() {
 		return telefono;
 	}
@@ -100,12 +143,11 @@ public class PacienteDTO {
 		this.direccion = direccion;
 	}
 
-	public LocalDateTime getFechaRegistro() {
-		return fechaRegistro;
+	public Boolean getEstado() {
+		return estado;
 	}
 
-	public void setFechaRegistro(LocalDateTime fechaRegistro) {
-		this.fechaRegistro = fechaRegistro;
+	public void setEstado(Boolean estado) {
+		this.estado = estado;
 	}
-
 }

@@ -3,16 +3,33 @@ package com.dentali.features.paciente.domain;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import com.dentali.features.historial.domain.enums.EstadoCivil;
+import com.dentali.features.historial.domain.enums.Genero;
+import com.dentali.features.historial.domain.enums.Nacionalidad;
+import com.dentali.features.historial.domain.enums.Ocupaciones;
+import com.dentali.features.historial.domain.enums.Religion;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name="pacientes")
+@Getter
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
 public class Paciente {
 
@@ -23,92 +40,36 @@ public class Paciente {
 	private String nombre;
 	private String apellido;
 	private LocalDate fechaNacimiento;
+
+	@Enumerated(EnumType.STRING)
+	private Genero genero;
+
+	@Enumerated(EnumType.STRING)
+	private EstadoCivil estadoCivil;
+
+	@Enumerated(EnumType.STRING)
+	private Ocupaciones ocupacion;
+
+	@Enumerated(EnumType.STRING)
+	private Religion religion;
+
+	@Enumerated(EnumType.STRING)
+	private Nacionalidad nacionalidad;
+
+
 	private String telefono;
 	private String email;
 	private String direccion;
 	
+	@CreationTimestamp
 	@Column(name = "fecha_registro")
-	private LocalDateTime fechaRegistro = LocalDateTime.now();
+	private LocalDateTime fechaRegistro;
 
-	// Constructor
-	public Paciente() {}
-	
-	public Paciente(String nombre, String apellido, LocalDate fechaNacimiento, String telefono, String email,
-			String direccion) {
-		this.nombre = nombre;
-		this.apellido = apellido;
-		this.fechaNacimiento = fechaNacimiento;
-		this.telefono = telefono;
-		this.email = email;
-		this.direccion = direccion;
-	}
-	
-	// Getters y Setters
+	@UpdateTimestamp
+	@Column(name = "fecha_actualizacion")
+	private LocalDateTime fechaActualizacion;
 
-	public Long getId() {
-		return id;
-	}
+	@Column(name = "estado", nullable = false)
+	private Boolean estado = true;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public String getApellido() {
-		return apellido;
-	}
-
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
-	}
-
-	public LocalDate getFechaNacimiento() {
-		return fechaNacimiento;
-	}
-
-	public void setFechaNacimiento(LocalDate fechaNacimiento) {
-		this.fechaNacimiento = fechaNacimiento;
-	}
-
-	public String getTelefono() {
-		return telefono;
-	}
-
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getDireccion() {
-		return direccion;
-	}
-
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
-	}
-
-	public LocalDateTime getFechaRegistro() {
-		return fechaRegistro;
-	}
-
-	public void setFechaRegistro(LocalDateTime fechaRegistro) {
-		this.fechaRegistro = fechaRegistro;
-	}
-	
-	
-	
 }
