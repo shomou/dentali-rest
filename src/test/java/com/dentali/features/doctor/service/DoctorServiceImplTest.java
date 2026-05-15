@@ -54,7 +54,14 @@ public class DoctorServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        existingDoctor = new Doctor(1L, "Juan", "Perez", "General", "123456", "juan@test.com");
+        existingDoctor = Doctor.builder()
+                .id(1L)
+                .nombre("Juan")
+                .apellido("Perez")
+                .especialidad("General")
+                .telefono("123456")
+                .email("juan@test.com")
+                .build();
         
         doctorRole = new Role();
         doctorRole.setId(1L);
