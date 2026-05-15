@@ -2,7 +2,9 @@ package com.dentali.features.auth.domain.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+
 
 @Entity
 @Table(name = "users")
@@ -23,6 +25,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Builder.Default
     private boolean enabled = true;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -32,5 +35,7 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "role_id"),
         uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "role_id"})}
     )
-    private List<Role> roles;
+
+    @Builder.Default
+    private Set<Role> roles = new HashSet<>();
 }

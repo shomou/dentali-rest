@@ -15,8 +15,9 @@
   - Seguimiento de padecimientos y planes de tratamiento personalizados.
   - Clasificación por **Género y Estado Civil** mediante tipos enriquecidos.
 - **Tratamientos y Pagos**: Control financiero y de procedimientos realizados.
-- **Seguridad Robusta**: Autenticación y autorización basada en **JWT (JSON Web Tokens)**.
-- **Arquitectura Modular**: Organizado por funcionalidades (**Package by Feature**) para facilitar la escalabilidad.
+- **Seguridad Centralizada**: Módulo de autenticación desacoplado con **JWT (JSON Web Tokens)**.
+- **Arquitectura Limpia**: Organización por funcionalidades (**Package by Feature**) con separación clara de responsabilidades (Domain, Application, Infrastructure).
+- **Gestión de Errores Profesional**: Respuestas estandarizadas en JSON para excepciones de negocio y validación.
 
 ---
 
@@ -26,24 +27,22 @@
 - **Persistencia**: Spring Data JPA & PostgreSQL
 - **Seguridad**: Spring Security & JWT
 - **Documentación**: Swagger UI / OpenAPI 3
-- **Utilidades**: Lombok, MapStruct (opcional), Maven
+- **Utilidades**: Lombok, MapStruct, Jakarta Validation, Maven
 
 ---
 
 ## 🏗️ Arquitectura del Proyecto
 
-El proyecto sigue un patrón de **Diseño Orientado a Funcionalidades (Package by Feature)**, lo que permite que cada módulo sea autónomo:
+El proyecto implementa una **Arquitectura por Funcionalidades**, donde cada módulo es independiente y sigue capas internas:
 
 ```text
-com.dentali
-├── features           # Módulos de negocio (Paciente, Cita, Doctor, etc.)
-│   ├── cita
-│   ├── paciente
-│   └── ...
-└── core               # Lógica transversal (Seguridad, Enums, Exceptions)
-    ├── config
-    ├── exceptions
-    └── ...
+com.dentali.features.<feature>
+├── application        # DTOs (Records), Mappers y Casos de Uso (Service)
+├── domain             # Modelos de Dominio y Contratos (Repository)
+├── infrastructure     # Implementaciones técnicas (Security, JPA)
+└── interfaces         # Controladores REST
+
+com.dentali.core       # Lógica transversal y GlobalExceptionHandler
 ```
 
 ---
