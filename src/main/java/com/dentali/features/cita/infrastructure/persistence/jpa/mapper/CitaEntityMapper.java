@@ -3,7 +3,7 @@ package com.dentali.features.cita.infrastructure.persistence.jpa.mapper;
 import org.springframework.stereotype.Component;
 import com.dentali.features.cita.domain.model.Cita;
 import com.dentali.features.cita.infrastructure.persistence.jpa.CitaEntity;
-import com.dentali.features.doctor.domain.Doctor;
+import com.dentali.features.doctor.domain.model.Doctor;
 import com.dentali.features.paciente.domain.model.Paciente;
 
 @Component

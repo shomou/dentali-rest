@@ -1,19 +1,19 @@
 package com.dentali.features.cita.application.service.impl;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dentali.core.exceptions.ResourceNotFoundException;
 import com.dentali.features.cita.application.dto.request.CitaRequest;
 import com.dentali.features.cita.application.dto.response.CitaResponse;
 import com.dentali.features.cita.application.mapper.CitaDtoMapper;
 import com.dentali.features.cita.application.service.CitaService;
 import com.dentali.features.cita.domain.model.Cita;
 import com.dentali.features.cita.domain.repository.CitaRepository;
-import com.dentali.features.doctor.domain.Doctor;
-import com.dentali.features.doctor.repository.DoctorRepository;
+import com.dentali.features.doctor.domain.model.Doctor;
+import com.dentali.features.doctor.domain.repository.DoctorRepository;
 import com.dentali.features.paciente.domain.model.Paciente;
 import com.dentali.features.paciente.domain.repository.PacienteRepository;
 
@@ -31,18 +31,16 @@ public class CitaServiceImpl implements CitaService{
     @Override
     @Transactional
     public CitaResponse createCita(CitaRequest request) {
+        Paciente paciente = pacienteRepository.findById(request.pacienteId())
+                .orElseThrow(() -> new ResourceNotFoundException("Paciente no encontrado con ID: " + request.pacienteId()));
+        
+        Doctor doctor = doctorRepository.findById(request.doctorId())
+                .orElseThrow(() -> new ResourceNotFoundException("Doctor no encontrado con ID: " + request.doctorId()));
 
-        Optional<Paciente> pacienteBd = pacienteRepository.findById(request.pacienteId());
-        Optional<Doctor> doctorBb = doctorRepository.findById(request.doctorId());
+        Cita cita = dtoMapper.toDomain(request, paciente, doctor);
+        Cita citaGuardada = citaRepository.save(cita);
 
-        if(pacienteBd.isEmpty() || doctorBb.isEmpty()){
-            throw new RuntimeException("Paciente o Doctor no encontrado");
-        }
-
-        Cita citaASalvar = dtoMapper.toDomain(request, pacienteBd.get(), doctorBb.get());
-        citaRepository.save(citaASalvar);
-
-        return dtoMapper.toResponse(citaASalvar);
+        return dtoMapper.toResponse(citaGuardada);
     }
 
     @Override
@@ -50,7 +48,7 @@ public class CitaServiceImpl implements CitaService{
     public CitaResponse getCitaById(Long id) {
         
         return dtoMapper.toResponse(citaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cita no encontrada")));
+                .orElseThrow(() -> new ResourceNotFoundException("Cita no encontrada")));
                 
     }
 
@@ -66,13 +64,13 @@ public class CitaServiceImpl implements CitaService{
     @Transactional
     public CitaResponse updateCita(Long id, CitaRequest request) {
         Cita citaExistente = citaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cita no encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Cita no encontrada"));
 
         Paciente paciente = pacienteRepository.findById(request.pacienteId())
-                .orElseThrow(() -> new RuntimeException("Paciente no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Paciente no encontrado"));
 
         Doctor doctor = doctorRepository.findById(request.doctorId())
-                .orElseThrow(() -> new RuntimeException("Doctor no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Doctor no encontrado"));
 
         citaExistente.setFechaHora(request.fecha_hora());
         citaExistente.setMotivo(request.motivo());

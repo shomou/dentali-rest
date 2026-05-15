@@ -3,7 +3,7 @@ package com.dentali.features.cita.domain.model;
 import java.time.LocalDateTime;
 
 import com.dentali.features.cita.domain.enums.EstadoCita;
-import com.dentali.features.doctor.domain.Doctor;
+import com.dentali.features.doctor.domain.model.Doctor;
 import com.dentali.features.paciente.domain.model.Paciente;
 
 import lombok.AllArgsConstructor;

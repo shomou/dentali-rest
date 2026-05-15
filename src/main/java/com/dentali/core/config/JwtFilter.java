@@ -14,8 +14,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.JwtException;
 
-import com.dentali.features.auth.service.JWTService;
-import com.dentali.features.auth.service.impl.MyUserDetailsServiceImpl;
+import com.dentali.features.auth.infrastructure.security.JWTService;
+import com.dentali.features.auth.infrastructure.security.impl.MyUserDetailsServiceImpl;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

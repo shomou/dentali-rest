@@ -5,7 +5,7 @@ import com.dentali.features.cita.application.dto.request.CitaRequest;
 import com.dentali.features.cita.application.dto.response.CitaResponse;
 import com.dentali.features.cita.domain.enums.EstadoCita;
 import com.dentali.features.cita.domain.model.Cita;
-import com.dentali.features.doctor.domain.Doctor;
+import com.dentali.features.doctor.domain.model.Doctor;
 import com.dentali.features.paciente.domain.model.Paciente;
 
 @Component
