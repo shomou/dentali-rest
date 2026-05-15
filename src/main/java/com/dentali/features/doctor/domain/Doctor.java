@@ -30,11 +30,14 @@ public class Doctor {
 	private String email;
 
 	@Column(name = "fecha_registro")
-	private LocalDateTime fechaRegistro = LocalDateTime.now();
+	private LocalDateTime fechaRegistro;
 
 	// Constructores
 	public Doctor() {
 	}
+
+
+	fechaRegistro = LocalDateTime.now();
 
 	public Doctor(Long id, String nombre, String apellido, String especialidad, String telefono, String email) {
 		this.id = id;
