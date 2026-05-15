@@ -1,6 +1,7 @@
 package com.dentali.features.auth.application.service.impl;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.List;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -42,7 +43,7 @@ public class AuthServiceImpl implements AuthService {
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password));
 
-        List<Role> roles = new ArrayList<>();
+        Set<Role> roles = new HashSet<>();
         roleNames.forEach(name -> roleRepository.findByName(name).ifPresent(roles::add));
         user.setRoles(roles);
 

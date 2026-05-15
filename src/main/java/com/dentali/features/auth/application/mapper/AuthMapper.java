@@ -8,6 +8,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import java.util.List;
+import java.util.Set;
 
 @Mapper(componentModel = "spring")
 public interface AuthMapper {
@@ -18,7 +19,7 @@ public interface AuthMapper {
 
     UserResponse toUserResponse(User user);
 
-    default List<String> mapRoles(List<Role> roles) {
+    default List<String> mapRoles(Set<Role> roles) {
         return roles == null ? null : roles.stream().map(Role::getName).toList();
     }
 }
