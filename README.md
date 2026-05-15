@@ -52,11 +52,28 @@ com.dentali
 
 La API está documentada automáticamente con Swagger. Una vez que el proyecto esté corriendo, puedes acceder a la interfaz interactiva en:
 
-🔗 **[http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)**
+🔗 **[http://localhost:8081/swagger-ui.html](http://localhost:8081/swagger-ui.html)**
+
+---
+
+## 📌 Endpoints Principales (v1)
+
+### 🗓️ Citas (`/api/v1/citas`)
+- `POST /api/v1/citas`: Agendar una nueva cita (Estado inicial: `PROGRAMADA`).
+- `GET /api/v1/citas`: Listar todas las citas registradas.
+- `GET /api/v1/citas/{id}`: Obtener la información detallada de una cita.
+- `PUT /api/v1/citas/{id}`: Actualizar datos, fecha o personal de una cita existente.
+
+### 👤 Pacientes (`/api/v1/pacientes`)
+- `POST /api/v1/pacientes`: Registrar un nuevo paciente.
+- `GET /api/v1/pacientes`: Listar todos los pacientes.
+- `GET /api/v1/pacientes/{id}`: Buscar un paciente por su ID.
+- `DELETE /api/v1/pacientes/{id}`: Eliminar el registro de un paciente.
 
 ---
 
 ## ⚙️ Instalación y Configuración
+
 
 ### Prerrequisitos
 - JDK 21 o superior
@@ -73,7 +90,6 @@ La API está documentada automáticamente con Swagger. Una vez que el proyecto e
    Edita el archivo `src/main/resources/application.properties` con tus credenciales de PostgreSQL.
 
 3. **Compilar y ejecutar**:
-   ```bash
    ```bash
    mvn clean install
    mvn spring-boot:run
