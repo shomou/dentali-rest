@@ -23,8 +23,16 @@ public class DoctorPersistenseAdapter implements DoctorRepository{
 
     @Override
     @Transactional
-    public Doctor save(Doctor doctor){        
+    public Doctor save(Doctor doctor){
+        if (doctor == null) {
+            throw new IllegalArgumentException("El doctor no puede ser nulo");
+        }
         DoctorEntity entidad = mapper.toEntity(doctor);
+
+        if (entidad == null) {
+            throw new IllegalStateException("Error interno: No se pudo mapear el doctor a la entidad de persistencia");
+        }
+        
         DoctorEntity saved = jpaRepository.save(entidad);
         return mapper.toDomain(saved);
 
@@ -33,6 +41,9 @@ public class DoctorPersistenseAdapter implements DoctorRepository{
     @Override
     @Transactional(readOnly = true)
     public Optional<Doctor> findById(Long id){
+        if (id == null) {
+            return Optional.empty();
+        }
         return jpaRepository.findById(id)
             .map(mapper::toDomain);
     }
@@ -40,6 +51,9 @@ public class DoctorPersistenseAdapter implements DoctorRepository{
     @Override
     @Transactional(readOnly = true)
     public Optional<Doctor> findByEmail(String email){
+        if (email == null || email.isBlank()) {
+            return Optional.empty();
+        }
         return jpaRepository.findByEmail(email)
             .map(mapper::toDomain);
     }
@@ -56,15 +70,26 @@ public class DoctorPersistenseAdapter implements DoctorRepository{
     @Override
     @Transactional
     public void deleteById(Long id){
+        if (id == null) {
+            return;
+        }
         jpaRepository.deleteById(id);
     }
 
     @Override
     @Transactional
     public Doctor update(Doctor doctor){
+        if (doctor == null) {
+            throw new IllegalArgumentException("El doctor no puede ser nulo para actualizar");
+        }
         // El método save de JpaRepository se encarga de actualizar sie elñ ID existe;
         // Aquí asumimos que el objeto Doctor que llega a actualizar ya tiene su ID
         DoctorEntity entityToUpdate = mapper.toEntity(doctor);
+
+        if (entityToUpdate == null) {
+            throw new IllegalStateException("Error interno: No se pudo mapear el doctor para la actualización");
+        }
+
         DoctorEntity updatedEntity = jpaRepository.save(entityToUpdate);
         return mapper.toDomain(updatedEntity);
     }

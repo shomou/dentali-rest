@@ -18,13 +18,24 @@ public class CitaPersistenceAdapter implements CitaRepository {
 
     @Override
     public Cita save(Cita cita) {
+        if (cita == null) {
+            throw new IllegalArgumentException("La cita no puede ser nula");
+        }
         CitaEntity entity = mapper.toEntity(cita);
+
+        if (entity == null) {
+            throw new IllegalStateException("Error interno: No se pudo mapear la cita a la entidad de persistencia");
+        }
+
         CitaEntity savedEntity = jpaRepository.save(entity);
         return mapper.toDomain(savedEntity);
     }
 
     @Override
     public Optional<Cita> findById(Long id) {
+        if (id == null) {
+            return Optional.empty();
+        }
         return jpaRepository.findById(id).map(mapper::toDomain);
     }
 
@@ -37,11 +48,17 @@ public class CitaPersistenceAdapter implements CitaRepository {
 
     @Override
     public void deleteById(Long id) {
+        if (id == null) {
+            return;
+        }
         jpaRepository.deleteById(id);
     }
 
     @Override
     public List<Cita> findByPacienteId(Long pacienteId) {
+        if (pacienteId == null) {
+            return List.of();
+        }
         return jpaRepository.findByPacienteId(pacienteId).stream()
                 .map(mapper::toDomain)
                 .toList();
@@ -49,6 +66,9 @@ public class CitaPersistenceAdapter implements CitaRepository {
 
     @Override
     public List<Cita> findByDoctorId(Long doctorId) {
+        if (doctorId == null) {
+            return List.of();
+        }
         return jpaRepository.findByDoctorId(doctorId).stream()
                 .map(mapper::toDomain)
                 .toList();

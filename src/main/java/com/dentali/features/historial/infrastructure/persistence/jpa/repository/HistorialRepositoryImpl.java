@@ -20,8 +20,15 @@ public class HistorialRepositoryImpl implements HistorialRepository{
 
     @Override
     public HistoriaClinica guardar(HistoriaClinica historial) {
+        if (historial == null) {
+            throw new IllegalArgumentException("La historia clínica no puede ser nula");
+        }
         // 1. Convertir Dominio -> Entity
         HistorialEntity entity = mapper.toEntity(historial);
+
+        if (entity == null) {
+            throw new IllegalStateException("Error interno: No se pudo mapear la historia clínica a la entidad de persistencia");
+        }
         
         // 2. Guardar en Postgres
         HistorialEntity savedEntity = springRepository.save(entity);
@@ -32,12 +39,18 @@ public class HistorialRepositoryImpl implements HistorialRepository{
 
     @Override
     public Optional<HistoriaClinica> buscarPorId(Long id) {
+        if (id == null) {
+            return Optional.empty();
+        }
         return springRepository.findById(id)
                 .map(mapper::toDomain);
     }
 
     @Override
     public Optional<HistoriaClinica> buscarPorPacienteId(Long pacienteId) {
+        if (pacienteId == null) {
+            return Optional.empty();
+        }
         return springRepository.findByPacienteId(pacienteId)
                 .map(mapper::toDomain);
     }
