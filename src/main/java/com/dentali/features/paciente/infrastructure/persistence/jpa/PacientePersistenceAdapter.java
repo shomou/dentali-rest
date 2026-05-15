@@ -21,7 +21,7 @@ public class PacientePersistenceAdapter implements PacienteRepository{
     private final PacienteEntityMapper mapper;
 
     @Override
-    public Paciente guardar(Paciente paciente) {
+    public Paciente save(Paciente paciente) {
         // 1. Convertimos el objeto de dominio a Entidad de JPA
         PacienteEntity entity = mapper.toEntity(paciente);
         
@@ -33,19 +33,19 @@ public class PacientePersistenceAdapter implements PacienteRepository{
     }
 
     @Override
-    public Optional<Paciente> buscarPorId(Long id) {
+    public Optional<Paciente> findById(Long id) {
         return jpaRepository.findById(id)
                 .map(mapper::toDomain);
     }
 
     @Override
-    public Optional<Paciente> buscarPorIdentificacion(String identificacion) {
+    public Optional<Paciente> findByIdentificacion(String identificacion) {
         return jpaRepository.findByIdentificacion(identificacion)
                 .map(mapper::toDomain);
     }
 
     @Override
-    public List<Paciente> obtenerTodos() {
+    public List<Paciente> findAll() {
         return jpaRepository.findAll()
                 .stream()
                 .map(mapper::toDomain)
@@ -53,7 +53,7 @@ public class PacientePersistenceAdapter implements PacienteRepository{
     }
 
     @Override
-    public void eliminar(Long id) {
+    public void deleteById(Long id) {
         jpaRepository.deleteById(id);
     }
 

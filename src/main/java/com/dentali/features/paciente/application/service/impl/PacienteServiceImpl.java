@@ -28,7 +28,7 @@ public class PacienteServiceImpl implements PacienteService{
     @Transactional
     public PacienteResponse crear(PacienteRequest request) {
         // 1. Validar si ya existe por identificación
-        repository.buscarPorIdentificacion(request.identificacion())
+        repository.findByIdentificacion(request.identificacion())
                 .ifPresent(p -> { 
                     throw new RuntimeException("El paciente con esta identificación ya existe"); 
                 });
@@ -37,7 +37,7 @@ public class PacienteServiceImpl implements PacienteService{
         Paciente paciente = dtoMapper.toDomain(request);
 
         // 3. Guardar usando el adaptador de persistencia
-        Paciente pacienteGuardado = repository.guardar(paciente);
+        Paciente pacienteGuardado = repository.save(paciente);
 
         // 4. Retornar la respuesta formateada
         return dtoMapper.toResponse(pacienteGuardado);
@@ -45,8 +45,8 @@ public class PacienteServiceImpl implements PacienteService{
 
     @Override
     @Transactional(readOnly = true)
-    public PacienteResponse buscarPorId(Long id){
-        return repository.buscarPorId(id)
+    public PacienteResponse buscarPacientePorId(Long id){
+        return repository.findById(id)
                     .map(dtoMapper::toResponse)
                     .orElseThrow(() -> new RuntimeException("Paciente no encontrado con ID: " + id));
     }
@@ -54,7 +54,7 @@ public class PacienteServiceImpl implements PacienteService{
     @Override
     @Transactional(readOnly = true)
     public List<PacienteResponse> listarTodos() {
-        return repository.obtenerTodos().stream()
+        return repository.findAll().stream()
                 .map(dtoMapper::toResponse)
                 .collect(Collectors.toList());
     }
@@ -64,10 +64,10 @@ public class PacienteServiceImpl implements PacienteService{
     @Transactional
     public void eliminar(Long id){
         // Validamos que exista
-        if(repository.buscarPorId(id).isEmpty()){
+        if(repository.findById(id).isEmpty()){
             throw new RuntimeException("No se puede eliminar: Paciente no encontrado");
         }
-        repository.eliminar(id);
+        repository.deleteById(id);
     }
 
 }

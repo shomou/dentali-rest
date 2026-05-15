@@ -8,7 +8,7 @@ import com.dentali.features.paciente.application.dto.response.PacienteResponse;
 public interface PacienteService {
 
     PacienteResponse crear(PacienteRequest request);
-    PacienteResponse buscarPorId(Long id);
+    PacienteResponse buscarPacientePorId(Long id);
     List<PacienteResponse> listarTodos();
     void eliminar(Long id);
     

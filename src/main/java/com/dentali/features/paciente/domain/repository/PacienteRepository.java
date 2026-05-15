@@ -6,9 +6,9 @@ import java.util.Optional;
 import com.dentali.features.paciente.domain.model.Paciente;
 
 public interface PacienteRepository {
-    Paciente guardar(Paciente paciente);
-    Optional<Paciente> buscarPorId(Long id);
-    Optional<Paciente> buscarPorIdentificacion(String identificacion);
-    List<Paciente> obtenerTodos();
-    void eliminar(Long id);
+    Paciente save(Paciente paciente);
+    Optional<Paciente> findById(Long id);
+    Optional<Paciente> findByIdentificacion(String identificacion);
+    List<Paciente> findAll();
+    void deleteById(Long id);
 }

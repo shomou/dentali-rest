@@ -32,7 +32,7 @@ public class PacienteController {
 
     @GetMapping("/{id}")
     public ResponseEntity<PacienteResponse> buscarPorId(@PathVariable Long id){
-        return ResponseEntity.ok(pacienteService.buscarPorId(id));
+        return ResponseEntity.ok(pacienteService.buscarPacientePorId(id));
     }
 
     @GetMapping
