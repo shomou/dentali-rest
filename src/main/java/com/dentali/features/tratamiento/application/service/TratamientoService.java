@@ -16,5 +16,7 @@ public interface TratamientoService {
     // Buscar un Tratamiento especifico por su ID único
     TratamientoResponse obtenerPorId (Long id);
 
+    // Recuperar todos los tratamientos realizados por un doctor específico
+    List<TratamientoResponse> obtenerPorDoctor(Long doctorId);
 
 }

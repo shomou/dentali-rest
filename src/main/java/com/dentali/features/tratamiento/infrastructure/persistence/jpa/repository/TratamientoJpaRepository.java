@@ -15,4 +15,7 @@ public interface TratamientoJpaRepository extends JpaRepository<TratamientoEntit
     
     // Opcional: Por si en el futuro necesitas saber qué tratamientos se hicieron en una cita específica
     List<TratamientoEntity> findByCitaId(Long citaId);
+    
+    // Recupera los tratamientos realizados por un doctor específico
+    List<TratamientoEntity> findByDoctorIdOrderByFechaDesc(Long doctorId);
 }

@@ -42,4 +42,10 @@ public class TratamientoController {
         return ResponseEntity.ok(tratamiento);
     }
 
+    @GetMapping("/doctor/{doctorId}")
+    public ResponseEntity<List<TratamientoResponse>> obtenerPorDoctor(@PathVariable Long doctorId) {
+        List<TratamientoResponse> tratamientos = tratamientoService.obtenerPorDoctor(doctorId);
+        return ResponseEntity.ok(tratamientos);
+    }
+
 }

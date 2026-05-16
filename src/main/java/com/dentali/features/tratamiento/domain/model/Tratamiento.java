@@ -20,8 +20,9 @@ public class Tratamiento {
 
     private Long id;
     private Long pacienteId;
+    private Long doctorId;
     private Long citaId;
-    private LocalDateTime fecha; 
+    private LocalDateTime fecha;
     private String descripcion;
     private String observaciones;
     private BigDecimal costo;

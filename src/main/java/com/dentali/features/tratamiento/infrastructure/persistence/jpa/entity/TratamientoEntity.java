@@ -29,9 +29,12 @@ public class TratamientoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(name = "paciente_id", nullable = false)
     private Long pacienteId;
+
+    @Column(name = "doctor_id", nullable = false)
+    private Long doctorId;
 
     @Column(name = "cita_id")
     private Long citaId;
@@ -51,7 +54,5 @@ public class TratamientoEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private EstadoTratamiento estado;
-
-    
 
 }

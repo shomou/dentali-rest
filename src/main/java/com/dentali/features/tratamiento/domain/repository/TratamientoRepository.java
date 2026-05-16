@@ -16,4 +16,7 @@ public interface TratamientoRepository {
     // Recupera todos los tratamientos asociados a un paciente específico
     List<Tratamiento> buscarPorPacienteId(Long pacienteId);
 
+    // Recupera todos los tratamientos realizados por un doctor específico
+    List<Tratamiento> buscarPorDoctorId(Long doctorId);
+
 }

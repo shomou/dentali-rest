@@ -49,4 +49,11 @@ public class TratamientoPersistenceAdapter implements TratamientoRepository {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<Tratamiento> buscarPorDoctorId(Long doctorId) {
+        return jpaRepository.findByDoctorIdOrderByFechaDesc(doctorId).stream()
+                .map(entityMapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
 }
